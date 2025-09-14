@@ -1,16 +1,8 @@
-# recla_frontend_2
+# RECLA FRONTEND (VERSIÓN 2)
 
-A new Flutter project.
+## Funcionalidades de Sprint 1:
+- Inicio de sesión
+- Registro de usuario ecoaprendiz
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Rama vinculada de RECLA Backend (servicio usuarios):
+[Rama Backend - Sprint 1](https://github.com/caroSeminario23/RECLA_servicio_usuarios/tree/sprint1)
