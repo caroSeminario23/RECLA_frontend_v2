@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-//import '../../data/fake/datos_usuario_fake.dart';
-//import '../widgets/foto_perfil.dart';
 
 class PerfilEcoPagina extends StatefulWidget {
   const PerfilEcoPagina({super.key});

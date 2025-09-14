@@ -34,9 +34,9 @@ class _RegistroEcoState extends State<RegistroEco> {
 
       final success = await usuarioProvider.registro(
         email,
+        contrasena,
         fecNacimiento,
-        username,
-        contrasena
+        username
       );
 
       if (!mounted) return;
@@ -101,6 +101,7 @@ class _RegistroEcoState extends State<RegistroEco> {
                 TextFormField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
                   decoration: const InputDecoration(
                     labelText: 'Correo electrónico',
                     border: OutlineInputBorder(),
@@ -116,6 +117,28 @@ class _RegistroEcoState extends State<RegistroEco> {
                       return 'Correo no válido';
                     }
                     return null;
+                  },
+                  onFieldSubmitted: (value) async {
+                    final messenger = ScaffoldMessenger.of(context); 
+                    final theme = Theme.of(context);
+
+                    final valido = await usuarioProvider.validarEmail(value.trim());
+
+                    if (!valido) {
+                      messenger.showSnackBar(
+                        SnackBar(
+                          content: Text(usuarioProvider.errorMessage ?? 'Correo en uso'),
+                          backgroundColor: theme.colorScheme.errorContainer,
+                        ),
+                      );
+                    } else {
+                      messenger.showSnackBar(
+                        SnackBar(
+                          content: const Text('Correo disponible'),
+                          backgroundColor: theme.colorScheme.primaryContainer,
+                        ),
+                      );
+                    }
                   },
                 ),
                 const SizedBox(height: 12),
@@ -144,31 +167,12 @@ class _RegistroEcoState extends State<RegistroEco> {
                     ),
                   ),
                 ),
-                /*TextFormField(
-                  controller: _fecNacimientoController,
-                  keyboardType: TextInputType.datetime,
-                  decoration: const InputDecoration(
-                    labelText: 'Fecha de nacimiento (YYYY-MM-DD)',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.cake_outlined),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Ingresa tu fecha de nacimiento';
-                    }
-                    final regex =
-                        RegExp(r'^\d{4}-\d{2}-\d{2}$');
-                    if (!regex.hasMatch(value)) {
-                      return 'Formato no válido. Usa YYYY-MM-DD';
-                    }
-                    return null;
-                  },
-                ),*/
                 const SizedBox(height: 12),
 
                 // NOMBRE DE USUARIO
                 TextFormField(
                   controller: _usernameController,
+                  textInputAction: TextInputAction.next,
                   decoration: const InputDecoration(
                     labelText: 'Nombre de usuario',
                     border: OutlineInputBorder(),
@@ -183,6 +187,27 @@ class _RegistroEcoState extends State<RegistroEco> {
                     }
                     return null;
                   },
+                  onFieldSubmitted: (value) async {
+                    final messenger = ScaffoldMessenger.of(context); 
+                    final theme = Theme.of(context);
+                    
+                    final valido = await usuarioProvider.validarUsername(value.trim());
+                    if (!valido) {
+                      messenger.showSnackBar(
+                        SnackBar(
+                          content: Text(usuarioProvider.errorMessage ?? 'Nombre en uso'),
+                          backgroundColor: theme.colorScheme.errorContainer,
+                        ),
+                      );
+                    } else {
+                      messenger.showSnackBar(
+                        SnackBar(
+                          content: const Text('Nombre de usuario disponible'),
+                          backgroundColor: theme.colorScheme.primaryContainer,
+                        ),
+                      );
+                    }
+                  },
                 ),
                 const SizedBox(height: 12),
 
@@ -190,6 +215,7 @@ class _RegistroEcoState extends State<RegistroEco> {
                 TextFormField(
                   controller: _contrasenaController,
                   obscureText: _obscurePassword,
+                  textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     labelText: 'Contraseña',
                     border: const OutlineInputBorder(),
@@ -223,6 +249,7 @@ class _RegistroEcoState extends State<RegistroEco> {
                 TextFormField(
                   controller: _confirmarContrasenaController,
                   obscureText: _obscureConfirmPassword,
+                  textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
                     labelText: 'Confirmar contraseña',
                     border: const OutlineInputBorder(),

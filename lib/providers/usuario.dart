@@ -63,9 +63,49 @@ class UsuarioProvider extends ChangeNotifier {
       final response = await _usuarioService.registroEcoaprendiz(request);
       _isRegistered = response;
       _errorMessage = null;
-      return true;
+      return response;
     } catch (e) {
       _errorMessage = 'Error al registrar el usuario';
+      return false;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<bool> validarEmail(String email) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    final request = EmailValidacion(email: email);
+
+    try {
+      final response = await _usuarioService.validarEmail(request);
+      _errorMessage = null;
+      return response;
+    } catch (e) {
+      _errorMessage = 'Error al validar el email';
+      return false;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<bool> validarUsername(String username) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    final request = UsernameValidacion(username: username);
+
+    try {
+      final response = await _usuarioService.validarUsername(request);
+      _errorMessage = null;
+      return response;
+    } catch (e) {
+      _errorMessage = 'Error al validar el username';
       return false;
     } finally {
       _isLoading = false;

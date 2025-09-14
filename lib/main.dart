@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:recla/providers/usuario.dart';
-import 'config/theme.dart';
-import 'screens/bienvenida.dart'; 
+import 'package:recla/config/theme.dart';
+import 'package:recla/screens/bienvenida.dart';
 
 void main() {
   runApp(
