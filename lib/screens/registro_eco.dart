@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recla/providers/usuario.dart';
 import 'package:recla/widgets/encabezado.dart';
+import 'package:intl/intl.dart';
 
 class RegistroEco extends StatefulWidget {
   const RegistroEco({super.key});
@@ -20,12 +21,14 @@ class _RegistroEcoState extends State<RegistroEco> {
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
+  DateTime? _fecNacimiento;
+
   Future<void> _handleRegistro() async {
     if (_formKey.currentState!.validate()) {
       final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);
 
       final email = _emailController.text.trim();
-      final fecNacimiento = _fecNacimientoController.text.trim();
+      final fecNacimiento = _fecNacimientoController.text;
       final username = _usernameController.text.trim();
       final contrasena = _contrasenaController.text;
 
@@ -54,6 +57,24 @@ class _RegistroEcoState extends State<RegistroEco> {
           ),
         );
       }
+    }
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime now = DateTime.now();
+    final DateTime lastDate = DateTime(now.year - 17); // 18 años atrás
+
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _fecNacimiento ?? lastDate,
+      firstDate: DateTime(1975),
+      lastDate: lastDate,
+    );
+    if (picked != null && picked != _fecNacimiento) {
+      setState(() {
+        _fecNacimiento = picked;
+        _fecNacimientoController.text = DateFormat('yyyy-MM-dd').format(picked);
+      });
     }
   }
 
@@ -100,7 +121,30 @@ class _RegistroEcoState extends State<RegistroEco> {
                 const SizedBox(height: 12),
 
                 // FECHA DE NACIMIENTO
-                TextFormField(
+                GestureDetector(
+                  onTap: () => _selectDate(context),
+                  child: AbsorbPointer(
+                    child: TextFormField(
+                      controller: _fecNacimientoController,
+                      decoration: const InputDecoration(
+                        labelText: 'Fecha de nacimiento (YYYY-MM-DD)',
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.cake_outlined),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Ingresa tu fecha de nacimiento';
+                        }
+                        final regex = RegExp(r'^\d{4}-\d{2}-\d{2}$');
+                        if (!regex.hasMatch(value)) {
+                          return 'Formato no válido. Usa YYYY-MM-DD';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ),
+                /*TextFormField(
                   controller: _fecNacimientoController,
                   keyboardType: TextInputType.datetime,
                   decoration: const InputDecoration(
@@ -119,7 +163,7 @@ class _RegistroEcoState extends State<RegistroEco> {
                     }
                     return null;
                   },
-                ),
+                ),*/
                 const SizedBox(height: 12),
 
                 // NOMBRE DE USUARIO
