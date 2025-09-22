@@ -108,16 +108,21 @@ class _CompraProductosState extends State<CompraProductos> {
                   onSelect: _onTipoSelected,
                 ),
                 const SizedBox(height: 16),
-                ElevatedButton.icon(
-                  onPressed: _buscarProductos,
-                  icon: const Icon(Icons.search),
-                  label: const Text("Buscar"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    foregroundColor: Colors.white,
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: _buscarProductos, 
+                    icon: const Icon(Icons.search),
+                    label: const Text("Buscar"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Colors.white,
+                      /*shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8), // Bordes redondeados
+                      ),*/
+                    ),
                   ),
                 ),
-
                 if (_productos.isEmpty)
                   const Text("No hay productos para mostrar")
                 else
