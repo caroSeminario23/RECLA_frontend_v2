@@ -72,7 +72,8 @@ class ProductoFiltradoResponse {
     return ProductoFiltradoResponse(
       idProducto: json['id_producto'] as int,
       urlFoto: json['url_foto'] as String,
-      precio: (json['precio'] as num).toDouble(),
+      precio: double.parse(json['precio'] as String),
+      //precio: (json['precio'] as String).toDouble(),
       cantidad: json['cantidad'] as int,
       nombre: json['nombre'] as String,
     );

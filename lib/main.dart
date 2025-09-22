@@ -3,14 +3,18 @@ import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:recla/providers/usuario.dart';
+import 'package:recla/providers/producto.dart';
 import 'package:recla/config/theme.dart';
 import 'package:recla/screens/bienvenida.dart';
+import 'package:recla/screens/compra_producto.dart';
+
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UsuarioProvider()),
+        ChangeNotifierProvider(create: (_) => ProductoProvider()),
       ],
       child: const MyApp(),
     ),
@@ -35,7 +39,8 @@ class MyApp extends StatelessWidget {
       ],
 
       theme: AppTheme.lightTheme(),
-      home: const BienvenidaScreen()
+      home: const CompraProductos(),
+      //home: const BienvenidaScreen()
       //home: const Login()
       //home: const PerfilEcoPagina(),
       //home: const EstatusScreen()

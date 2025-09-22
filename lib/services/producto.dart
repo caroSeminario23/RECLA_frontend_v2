@@ -33,6 +33,7 @@ class ProductoService {
 
   //FILTRAR PRODUCTOS
   Future<List<ProductoFiltradoResponse>> filtrarProductos(ProductoFiltradoRequest request) async {
+    print('Request JSON: ${request.toJson()}');
     final response = await http.post(
       Uri.parse('$baseUrl/filtrar_productos'),
       headers: {'Content-Type': 'application/json'},
@@ -41,7 +42,7 @@ class ProductoService {
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonResp = jsonDecode(response.body);
       final List<dynamic> data = jsonResp['data'];
-
+      print('Response Data: $data');
       return data
           .map((item) => ProductoFiltradoResponse.fromJson(item))
           .toList();

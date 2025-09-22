@@ -7,10 +7,12 @@ class ProductoProvider extends ChangeNotifier {
   bool _isLoading = false;
   String? _errorMessage;
   bool? _isRegistered = false;
+  List<ProductoFiltradoResponse> _productosFiltrados = [];
   
   bool? get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   bool? get isRegistered => _isRegistered;
+  List<ProductoFiltradoResponse> get productosFiltrados => _productosFiltrados;
 
   //REGISTRO PRODUCTO
   Future<bool> registroPro(
@@ -47,6 +49,7 @@ class ProductoProvider extends ChangeNotifier {
   }
   //FILTRAR PRODUCTOS
   Future<List<ProductoFiltradoResponse>> filtrarP(List<int> tipo, String material) async {
+    print('{tipo: $tipo, material: "$material"}');
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
@@ -58,10 +61,14 @@ class ProductoProvider extends ChangeNotifier {
 
     try {
       final response = await _productoService.filtrarProductos(request);
+      print('Productos filtrados recibidos: $response');
+      _productosFiltrados = response;
+      print('Productos filtrados en provider: $_productosFiltrados');
       _errorMessage = null;
       return response;
     } catch (e) {
       _errorMessage = 'Error al filtrar productos';
+      print('Error al filtrar productos: $e');
       return [];
     } finally {
       _isLoading = false;
