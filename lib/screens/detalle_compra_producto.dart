@@ -6,7 +6,7 @@ import 'package:recla/widgets/componente_detalles_y_comprar.dart';
 import 'package:recla/widgets/navbar.dart';
 
 
-
+/*
 class DetalleCompraProducto extends StatefulWidget {
   final int id;
   const DetalleCompraProducto({super.key, required this.id});
@@ -172,4 +172,4 @@ class _DetalleCompraProductoState extends State<DetalleCompraProducto> {
         ),*/
     );
   }
-}
+}*/
