@@ -144,7 +144,8 @@ class _CompraProductosState extends State<CompraProductos> {
                         child: TarjetaCompraProductos(
                           fotoProducto: producto.urlFoto,
                           nombreProducto: producto.nombre,
-                          tipo: _tipoSeleccionado.isNotEmpty ? _tipoSeleccionado.first : 0,
+                          tipo: producto.tipo,
+                          //tipo: _tipoSeleccionado.isNotEmpty ? _tipoSeleccionado.first : 0,
                           precio: producto.precio.toInt(),
                         ),
                       );

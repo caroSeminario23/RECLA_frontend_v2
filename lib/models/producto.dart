@@ -60,12 +60,14 @@ class ProductoFiltradoResponse {
   String urlFoto;
   double precio;
   int cantidad;
+  int tipo;
   String nombre;
   ProductoFiltradoResponse({
     required this.idProducto,
     required this.urlFoto,
     required this.precio,
     required this.cantidad,
+    required this.tipo,
     required this.nombre,
   });
   factory ProductoFiltradoResponse.fromJson(Map<String, dynamic> json) {
@@ -75,6 +77,7 @@ class ProductoFiltradoResponse {
       precio: double.parse(json['precio'] as String),
       //precio: (json['precio'] as String).toDouble(),
       cantidad: json['cantidad'] as int,
+      tipo: json['tipo'] as int,
       nombre: json['nombre'] as String,
     );
   }
