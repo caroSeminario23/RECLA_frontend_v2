@@ -64,7 +64,7 @@ class ProductoService {
   // DETALLE PRODUCTO
   Future<ProductoDetalleResponse> detalleProducto(ProductoDetalleRequest request) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/detalle_producto'),
+      Uri.parse('$baseUrl/producto_detalle'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(request.toJson())
     );

@@ -138,7 +138,18 @@ class _CompraProductosState extends State<CompraProductos> {
                       childAspectRatio: 0.75,
                     ),
                     itemCount: _productos.length,
+                    // En el itemBuilder del GridView
                     itemBuilder: (context, index) {
+                      final producto = _productos[index];
+                      return TarjetaCompraProductos(
+                        fotoProducto: producto.urlFoto,
+                        nombreProducto: producto.nombre,
+                        tipo: producto.tipo,
+                        precio: producto.precio.toInt(),
+                        idProducto: producto.idProducto, // ← Agregar esta línea
+                      );
+                    },
+                    /*itemBuilder: (context, index) {
                       final producto = _productos[index];
                       return InkWell(
                         child: TarjetaCompraProductos(
@@ -149,7 +160,7 @@ class _CompraProductosState extends State<CompraProductos> {
                           precio: producto.precio.toInt(),
                         ),
                       );
-                    },
+                    },*/
                   ),
               ],
             ),

@@ -99,14 +99,14 @@ class ProductoDetalleResponse {
   int idProducto;
   int idVendedor;
   String descripcion;
-  int tipo;
+  //int tipo;
   String material;
 
   ProductoDetalleResponse({
     required this.idProducto,
     required this.idVendedor,
     required this.descripcion,
-    required this.tipo,
+    //required this.tipo,
     required this.material,
   });
   factory ProductoDetalleResponse.fromJson(Map<String, dynamic> json) {
@@ -114,7 +114,7 @@ class ProductoDetalleResponse {
       idProducto: json['id_producto'] as int,
       idVendedor: json['id_vendedor'] as int,
       descripcion: json['descripcion'] as String,
-      tipo: json['tipo'] as int,
+      //tipo: json['tipo'] as int,
       material: json['material'] as String,
     );
   }

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 class DetalleYComprarProducto extends StatelessWidget {
   final int idProducto; // ID del producto
+  final String descripcion;
   final VoidCallback onPressed;
 
   const DetalleYComprarProducto({
     super.key,
     required this.idProducto,
     required this.onPressed,
+    required this.descripcion,
   });
 
   @override
@@ -18,7 +20,7 @@ class DetalleYComprarProducto extends StatelessWidget {
       orElse: () => {'detalle': 'Detalle no encontrado'}, // Manejo de error si no se encuentra el ID
     );*/
 
-    final detalle = "detalle";//productoDetalle['detalle']; // Extraer el campo detalle
+    //final detalle = "detalle";//productoDetalle['detalle']; // Extraer el campo detalle
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0), // Margen horizontal
@@ -34,7 +36,7 @@ class DetalleYComprarProducto extends StatelessWidget {
 
           // Detalle del producto
           Text(
-            detalle,
+            descripcion,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium,
           ),

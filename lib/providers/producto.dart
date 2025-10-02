@@ -82,7 +82,7 @@ class ProductoProvider extends ChangeNotifier {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
-
+    print('Buscando detalle para producto ID: $idProducto');
     final request = ProductoDetalleRequest(idProducto: idProducto);
 
     try {
