@@ -120,43 +120,6 @@ class ProductoDetalleResponse {
   }
 }
 
-/*class ProductoConsultaRequest{
-  int idProducto;
-  ProductoConsultaRequest({
-    required this.idProducto
-  });
-  Map<String, dynamic> toJson() {
-    return {
-      'id_producto': idProducto,
-    };
-  }
-}
-
-class ProductoConsultaResponse {
-  int idProducto;
-  String urlFoto;
-  double precio;
-  int cantidad;
-  String nombre;
-
-  ProductoConsultaResponse({
-    required this.idProducto,
-    required this.urlFoto,
-    required this.precio,
-    required this.cantidad,
-    required this.nombre,
-  });
-
-  factory ProductoConsultaResponse.fromJson(Map<String, dynamic> json) {
-    return ProductoConsultaResponse(
-      idProducto: json['id_producto'] as int,
-      urlFoto: json['url_foto'] as String,
-      precio: (json['precio'] as num).toDouble(),
-      cantidad: json['cantidad'] as int,
-      nombre: json['nombre'] as String,
-    );
-  }
-}*/
 
 
 

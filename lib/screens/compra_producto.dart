@@ -6,6 +6,7 @@ import 'package:recla/widgets/botones_tipo.dart';
 import 'package:recla/widgets/botones_tipo_material.dart';
 import 'package:recla/widgets/tarjeta_compra_producto.dart';
 import 'package:recla/widgets/navbar.dart';
+import 'package:recla/screens/registro_producto.dart';
 
 class CompraProductos extends StatefulWidget {
   const CompraProductos({super.key});
@@ -77,10 +78,14 @@ class _CompraProductosState extends State<CompraProductos> {
         actions: [
           IconButton(
             icon: const Icon(Icons.add_circle_outline_outlined, size: 24),
-            onPressed:
-                () => ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Funcionalidad en desarrollo')),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const RegistroProducto(),
                 ),
+              );
+            },
           ),
         ],
       ),
@@ -101,13 +106,13 @@ class _CompraProductosState extends State<CompraProductos> {
                   vidrio: 1, //datosTiposMaterial['vidrio'] ?? 0,
                   onSelect: _onMaterialSelected,
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 8),
                 BotonesTipo(
                   material: 1, //datosTipoCompra['material'] ?? 0,
                   producto: 1, //datosTipoCompra['producto'] ?? 0,
                   onSelect: _onTipoSelected,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
@@ -117,9 +122,6 @@ class _CompraProductosState extends State<CompraProductos> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       foregroundColor: Colors.white,
-                      /*shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8), // Bordes redondeados
-                      ),*/
                     ),
                   ),
                 ),

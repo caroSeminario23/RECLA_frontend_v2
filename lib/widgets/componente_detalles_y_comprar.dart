@@ -14,13 +14,6 @@ class DetalleYComprarProducto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Buscar el detalle del producto por ID
-    /*final productoDetalle = datosDetalleProductos.firstWhere(
-      (producto) => producto['id_producto'] == idProducto,
-      orElse: () => {'detalle': 'Detalle no encontrado'}, // Manejo de error si no se encuentra el ID
-    );*/
-
-    //final detalle = "detalle";//productoDetalle['detalle']; // Extraer el campo detalle
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0), // Margen horizontal
