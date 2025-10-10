@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'package:recla/models/usuario.dart';
+import 'package:recla/utils/servicios_externos.dart';
 
 class UsuarioService {
-  final String baseUrl = "http://127.0.0.1:5000/usuario_routes";
+  final String baseUrl = '$servidorUsuarios/usuario_routes';
 
   // INICIO DE SESIÓN
   Future<UsuarioLoginResponse> loginEcoaprendiz(UsuarioLoginRequest request) async {
