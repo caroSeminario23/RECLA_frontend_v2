@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:recla/providers/estatus.dart';
+import 'package:recla/providers/usuario.dart';
 import 'package:recla/screens/beneficios.dart';
 import 'package:recla/screens/compra_productos.dart';
 import 'package:recla/screens/tabla_clasificacion.dart';
+import 'package:recla/utils/servicios_externos.dart';
 import 'package:recla/widgets/barra_puntos.dart';
 import 'package:recla/widgets/navbar.dart';
 import 'package:recla/widgets/presentacion_usuario.dart';
@@ -37,6 +42,27 @@ class _PerfilEcoPaginaState extends State<PerfilEcoPagina> {
     }
   }
 
+  // Cargar estatus del usuario
+  Future<void> _cargarEstatus() async {
+    final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);
+    final estatusProvider = Provider.of<EstatusProvider>(context, listen: false);
+
+    final int idUsuario = usuarioProvider.idUsuario ?? 1;
+
+    await estatusProvider.cargarEstatusPerfil(idUsuario);
+    await estatusProvider.cargarEstatusContadores(idUsuario);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    
+    // Usar addPostFrameCallback para asegurar que el contexto esté disponible
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _cargarEstatus();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +77,7 @@ class _PerfilEcoPaginaState extends State<PerfilEcoPagina> {
         actions: [
           IconButton(
             icon: Image.asset(
-              'assets/images/icons/ar_stickers.png',
+              'assets/images/ar_stickers.png',
               width: 24,
               height: 24,
             ),
@@ -74,10 +100,14 @@ class _PerfilEcoPaginaState extends State<PerfilEcoPagina> {
           children: [
             //DATOS DEL USUARIO
             Center(
-              child: PresentacionUsuario(
-                fotoAprendiz: 'https://lyhgavhtpjtnozoabwqk.supabase.co/storage/v1/object/public/recla-images/perfil_aprendices/aprendiz5.png',
-                experiencia: 200,
-                nombre: 'Juan Pérez',
+              child: Consumer2<EstatusProvider, UsuarioProvider>(
+                builder: (context, estatusProvider, usuarioProvider, child) {
+                  return PresentacionUsuario(
+                    fotoAprendiz: perfilPredeterminado,
+                    experiencia: estatusProvider.ptosExperiencia ?? 0,
+                    nombre: usuarioProvider.username ?? 'Nombre Apellido',
+                  );
+                },
               ),
             ),
 
@@ -87,11 +117,15 @@ class _PerfilEcoPaginaState extends State<PerfilEcoPagina> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  BarraPuntos(
-                    racha: 5,
-                    ptosCompras: 200,
-                    ptosVentas: 150,
-                    ptosRecEducativos: 100,
+                  Consumer<EstatusProvider>(
+                    builder: (context, estatusProvider, child) {
+                      return BarraPuntos(
+                        racha: estatusProvider.racha ?? 0,
+                        ptosCompras: estatusProvider.ptosCompras ?? 0,
+                        ptosVentas: estatusProvider.ptosVentas ?? 0,
+                        ptosRecEducativos: estatusProvider.ptosRecEducativos ?? 0,
+                      );
+                    },
                   ),
                 ],
               ),

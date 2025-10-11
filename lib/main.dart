@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:recla/providers/estatus.dart';
 
 import 'package:recla/providers/usuario.dart';
 import 'package:recla/config/theme.dart';
@@ -11,6 +12,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UsuarioProvider()),
+        ChangeNotifierProvider(create: (_) => EstatusProvider()),
       ],
       child: const MyApp(),
     ),
