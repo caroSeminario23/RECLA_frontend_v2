@@ -1,17 +1,14 @@
 class EstatusPerfil {
-  int idUsuario;
   int racha;
   int ptosSistema;
 
   EstatusPerfil({
-    required this.idUsuario,
     required this.racha,
     required this.ptosSistema,
   });
 
   factory EstatusPerfil.fromJson(Map<String, dynamic> json) {
     return EstatusPerfil(
-      idUsuario: json['id_usuario'] as int,
       racha: json['racha'] as int,
       ptosSistema: json['ptos_sistema'] as int,
     );

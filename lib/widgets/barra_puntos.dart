@@ -25,19 +25,19 @@ class BarraPuntos extends StatelessWidget {
           puntaje: racha, 
           tipoPuntaje: 1),
         
-        const SizedBox(height: 8), // Espacio entre los tipos de puntaje
+        const SizedBox(height: 9), // Espacio entre los tipos de puntaje
         
         TipoPuntaje(
           puntaje: ptosCompras, 
           tipoPuntaje: 2),
         
-        const SizedBox(height: 8), // Espacio entre los tipos de puntaje
+        const SizedBox(height: 9), // Espacio entre los tipos de puntaje
 
         TipoPuntaje(
           puntaje: ptosVentas, 
           tipoPuntaje: 3),
 
-        const SizedBox(height: 8), // Espacio entre los tipos de puntaje
+        const SizedBox(height: 9), // Espacio entre los tipos de puntaje
         
         TipoPuntaje(
           puntaje: ptosRecEducativos, 
