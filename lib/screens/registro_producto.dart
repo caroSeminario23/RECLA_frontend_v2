@@ -86,7 +86,7 @@ class _RegistroProductoState extends State<RegistroProducto> {
     try {
       final productoProvider = Provider.of<ProductoProvider>(context, listen: false);
       
-      final resultado = await productoProvider.registroPro(// idProducto - se genera automáticamente
+      final resultado = await productoProvider.registroPro(
         1, // idVendedor - obtener del usuario logueado
         _urlFotoController.text,
         double.parse(_precioController.text),

@@ -176,7 +176,6 @@ class _DetalleCompraProductoState extends State<DetalleCompraProducto> {
                   );
                 },
               ),
-              const Divider(color: Colors.grey, thickness: 1),
             ],
           ),
         ),
