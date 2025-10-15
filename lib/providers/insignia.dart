@@ -8,11 +8,23 @@ class InsigniaProvider extends ChangeNotifier {
   // Servicio de insignias
   final InsigniaService _insigniaService = InsigniaService();
 
-  List<InsigniaConEstado> _insigniasConEstado = [];
+  //List<InsigniaConEstado> _insigniasConEstado = [];
+
+  // Tres listas separadas para cada tipo de insignias
+  List<InsigniaConEstado> _insigniasCompra = [];
+  List<InsigniaConEstado> _insigniasVenta = [];
+  List<InsigniaConEstado> _insigniasRecursos = [];
+
   bool _isLoading = false;
   String? _errorMessage;
 
-  List<InsigniaConEstado> get insignias => _insigniasConEstado;
+  //List<InsigniaConEstado> get insignias => _insigniasConEstado;
+
+  // Getters para cada tipo de insignias
+  List<InsigniaConEstado> get insigniasCompra => _insigniasCompra;
+  List<InsigniaConEstado> get insigniasVenta => _insigniasVenta;
+  List<InsigniaConEstado> get insigniasRecursos => _insigniasRecursos;
+  
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 
@@ -24,7 +36,21 @@ class InsigniaProvider extends ChangeNotifier {
 
     try {
       final insigniasConEstado = await _insigniaService.mostrarInsignias(idUsuario, tipoPuntos);
-      _insigniasConEstado = insigniasConEstado;
+
+      // Guardar las insignias según su tipo
+      switch(tipoPuntos) {
+        case 1:
+          _insigniasCompra = insigniasConEstado;
+          break;
+        case 2:
+          _insigniasVenta = insigniasConEstado;
+          break;
+        case 3:
+          _insigniasRecursos = insigniasConEstado;
+          break;
+      }
+
+      //_insigniasConEstado = insigniasConEstado;
       _errorMessage = null;
       return true;
     } catch (e) {

@@ -4,7 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:recla/providers/estatus.dart';
 import 'package:recla/providers/usuario.dart';
 import 'package:recla/screens/beneficios.dart';
+import 'package:recla/screens/certificados_persona.dart';
 import 'package:recla/screens/compra_productos.dart';
+import 'package:recla/screens/insignias_persona.dart';
+import 'package:recla/screens/productos_persona.dart';
 import 'package:recla/screens/tabla_clasificacion.dart';
 import 'package:recla/utils/servicios_externos.dart';
 import 'package:recla/widgets/barra_puntos.dart';
@@ -134,34 +137,156 @@ class _PerfilEcoPaginaState extends State<PerfilEcoPagina> {
             const SizedBox(
               height: 16,
             ), // Espacio entre el estatus y la imagen del puesto
-            // DIVIDER
+
+            // SECCIÓN INSIGNIAS
             Divider(
               thickness: 2,
               color: Theme.of(context).colorScheme.outlineVariant,
             ),
+            Text(
+              'MIS INSIGNIAS',
+              style: Theme.of(context).textTheme.titleMedium,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
 
-            const SizedBox(
-              height: 55,
-            ), // Espacio entre el divider y las insignias
-
-            // BOTÓN PARA EDITAR PERFIL
-            Align(
-              alignment: Alignment.centerRight,
-              child: FloatingActionButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Funcionalidad en desarrollo'),
-                    ),
-                  );
-                },
-                mini: false,
-                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+            // INSIGNIAS
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const InsigniasPersonaPagina(),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.emoji_events_outlined),
+              label: const Text('Visualiza mis logros'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    Theme.of(
+                      context,
+                    ).colorScheme.secondaryContainer, // Fondo verde
                 foregroundColor:
-                    Theme.of(context).colorScheme.onPrimaryContainer,
-                child: const Icon(Icons.edit, size: 18),
+                    Theme.of(context)
+                        .colorScheme
+                        .onSecondaryContainer, // Texto e ícono blancos
+                side: BorderSide(
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                  width: 2,
+                ), // Borde verde oscuro
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    12,
+                  ), // Opcional: bordes redondeados
+                ),
+                minimumSize: const Size.fromHeight(50),
+                padding: const EdgeInsets.symmetric(horizontal: 35),
+                textStyle: Theme.of(context).textTheme.labelLarge,
               ),
             ),
+
+            const SizedBox(
+              height: 16,
+            ), // Espacio entre el estatus y la imagen del puesto
+            
+            // SECCIÓN CERTIFICADOS
+            Divider(
+              thickness: 2,
+              color: Theme.of(context).colorScheme.outlineVariant,
+            ),
+            Text(
+              'MIS CERTIFICADOS',
+              style: Theme.of(context).textTheme.titleMedium,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+
+            // CERTIFICADOS
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const CertificadosPersonaPagina(),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.emoji_events_outlined),
+              label: const Text('Visualiza mis certificados'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    Theme.of(
+                      context,
+                    ).colorScheme.secondaryContainer, // Fondo verde
+                foregroundColor:
+                    Theme.of(context)
+                        .colorScheme
+                        .onSecondaryContainer, // Texto e ícono blancos
+                side: BorderSide(
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                  width: 2,
+                ), // Borde verde oscuro
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    12,
+                  ), // Opcional: bordes redondeados
+                ),
+                minimumSize: const Size.fromHeight(50),
+                padding: const EdgeInsets.symmetric(horizontal: 35),
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+            ),
+
+            const SizedBox(
+              height: 16,
+            ), // Espacio entre el estatus y la imagen del puesto
+            
+            // SECCIÓN PRODUCTOS
+            Divider(
+              thickness: 2,
+              color: Theme.of(context).colorScheme.outlineVariant,
+            ),
+            Text(
+              'MIS PRODUCTOS',
+              style: Theme.of(context).textTheme.titleMedium,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+
+            // PRODUCTOS QUE OFRECE
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const ProductosPersonaPagina(),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.emoji_events_outlined),
+              label: const Text('Lo que te ofrezco'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    Theme.of(
+                      context,
+                    ).colorScheme.secondaryContainer, // Fondo verde
+                foregroundColor:
+                    Theme.of(context)
+                        .colorScheme
+                        .onSecondaryContainer, // Texto e ícono blancos
+                side: BorderSide(
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                  width: 2,
+                ), // Borde verde oscuro
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    12,
+                  ), // Opcional: bordes redondeados
+                ),
+                minimumSize: const Size.fromHeight(50),
+                padding: const EdgeInsets.symmetric(horizontal: 35),
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+            ),
+
           ],
         ),
         ),

@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:recla/providers/estatus.dart';
+
+import 'package:recla/providers/insignia.dart';
+import 'package:recla/providers/usuario.dart';
 import 'package:recla/screens/beneficios.dart';
 import 'package:recla/screens/compra_productos.dart';
 import 'package:recla/screens/perfil_eco.dart';
@@ -15,6 +20,9 @@ class InsigniasPagina extends StatefulWidget {
 
 class _InsigniasPaginaState extends State<InsigniasPagina> {
   int opcionSeleccionada = 1;
+  int puntosCompra = 0;
+  int puntosVenta = 0;
+  int puntosRecEducativos = 0;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -34,6 +42,39 @@ class _InsigniasPaginaState extends State<InsigniasPagina> {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => const CompraProductosPagina()));
     }
+  }
+
+
+  // Cargar insignias
+  Future<void> _cargarInsignias() async {
+    final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);
+    final insigniaProvider = Provider.of<InsigniaProvider>(context, listen: false);
+    final estatusProvider = Provider.of<EstatusProvider>(context, listen: false);
+
+    final int idUsuario = usuarioProvider.idUsuario ?? 1;
+
+    setState(() {
+      puntosCompra = estatusProvider.ptosCompras ?? 0;
+      puntosVenta = estatusProvider.ptosVentas ?? 0;
+      puntosRecEducativos = estatusProvider.ptosRecEducativos ?? 0;
+    });
+
+    await insigniaProvider.obtenerInsignias(idUsuario, 1); //compras
+    print("Insignias compra: ${insigniaProvider.insigniasCompra.length}");
+    await insigniaProvider.obtenerInsignias(idUsuario, 2); //ventas
+    print("Insignias venta: ${insigniaProvider.insigniasVenta.length}");
+    await insigniaProvider.obtenerInsignias(idUsuario, 3); //recursos educativos
+    print("Insignias recursos educativos: ${insigniaProvider.insigniasRecursos.length}");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    
+    // Usar addPostFrameCallback para asegurar que el contexto esté disponible
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _cargarInsignias();
+    });
   }
 
   @override
@@ -73,12 +114,15 @@ class _InsigniasPaginaState extends State<InsigniasPagina> {
               const SizedBox(height: 1),
 
               // SECCIÓN 1
-              ColeccionInsignias(
-                nombreColeccion: seccionInsignias1['nombreColeccion'],
-                nivel: seccionInsignias1['nivel'],
-                insignias: seccionInsignias1['insignias'],
-                tipoContador: seccionInsignias1['tipoContador'],
-                valorContador: seccionInsignias1['valorContador'],
+              Consumer<InsigniaProvider>(
+                builder: (context, insigniaProvider, child) {
+                  return ColeccionInsignias(
+                    nombreColeccion: "Comprador consciente",
+                    insignias: insigniaProvider.insigniasCompra,
+                    tipoContador: 1,
+                    valorContador: puntosCompra,
+                  );
+                },
               ),
 
               // ESPACIO ENTRE SECCIÓN 1 Y LÍNEA DIVISORA
@@ -94,12 +138,15 @@ class _InsigniasPaginaState extends State<InsigniasPagina> {
               const SizedBox(height: 1),
 
               // SECCIÓN 2
-              ColeccionInsignias(
-                nombreColeccion: seccionInsignias2['nombreColeccion'],
-                nivel: seccionInsignias2['nivel'],
-                insignias: seccionInsignias2['insignias'],
-                tipoContador: seccionInsignias2['tipoContador'],
-                valorContador: seccionInsignias2['valorContador'],
+              Consumer<InsigniaProvider>(
+                builder: (context, insigniaProvider, child) {
+                  return ColeccionInsignias(
+                    nombreColeccion: "Vendedor consciente",
+                    insignias: insigniaProvider.insigniasVenta,
+                    tipoContador: 2,
+                    valorContador: puntosVenta,
+                  );
+                },
               ),
 
               // ESPACIO ENTRE SECCIÓN 2 Y LÍNEA DIVISORA
@@ -115,33 +162,15 @@ class _InsigniasPaginaState extends State<InsigniasPagina> {
               const SizedBox(height: 1),
 
               // SECCIÓN 3
-              ColeccionInsignias(
-                nombreColeccion: seccionInsignias3['nombreColeccion'],
-                nivel: seccionInsignias3['nivel'],
-                insignias: seccionInsignias3['insignias'],
-                tipoContador: seccionInsignias3['tipoContador'],
-                valorContador: seccionInsignias3['valorContador'],
-              ),
-
-              // ESPACIO ENTRE SECCIÓN 3 Y LÍNEA DIVISORA
-              const SizedBox(height: 12),
-
-              // LÍNEA DIVISORA
-              Divider(
-                thickness: 2,
-                color: Theme.of(context).colorScheme.outlineVariant,
-              ),
-
-              // ESPACIO ENTRE LÍNEA Y SECCIÓN 4
-              const SizedBox(height: 1),
-
-              // SECCIÓN 4
-              ColeccionInsignias(
-                nombreColeccion: seccionInsignias4['nombreColeccion'],
-                nivel: seccionInsignias4['nivel'],
-                insignias: seccionInsignias4['insignias'],
-                tipoContador: seccionInsignias4['tipoContador'],
-                valorContador: seccionInsignias4['valorContador'],
+              Consumer<InsigniaProvider>(
+                builder: (context, insigniaProvider, child) {
+                  return ColeccionInsignias(
+                    nombreColeccion: "Ecoaprendiz informado",
+                    insignias: insigniaProvider.insigniasRecursos,
+                    tipoContador: 3,
+                    valorContador: puntosRecEducativos,
+                  );
+                },
               ),
             ],
           ),

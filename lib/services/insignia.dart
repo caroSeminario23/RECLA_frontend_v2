@@ -15,6 +15,8 @@ class InsigniaService {
       body: jsonEncode({'id_usuario': idUsuario, 'tipo_ptos': tipoPuntos}),
     );
 
+    // Imprimir la respuesta
+    print('Respuesta para tipoPuntos $tipoPuntos: ${response.body}');
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonResp = jsonDecode(response.body);
       final List<dynamic> data = jsonResp['data'];

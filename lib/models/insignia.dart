@@ -19,7 +19,7 @@ class InsigniaConEstado {
       nombre: json['nombre'] as String,
       urlImagen: json['url_imagen'] as String,
       nivel: json['nivel'] as int,
-      desbloqueada: json['desbloqueada'] as bool,
+      desbloqueada: json['desbloqueado'] as bool,
     );
   }
 }

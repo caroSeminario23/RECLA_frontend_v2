@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:recla/models/insignia.dart';
 import 'package:recla/utils/ref_imagenes.dart';
 
 class ColeccionInsignias extends StatelessWidget {
   final String nombreColeccion;
-  final int nivel;
-  final List<Map<String, dynamic>> insignias;
+  final List<InsigniaConEstado> insignias;
   final int tipoContador;
   final int valorContador;
 
   const ColeccionInsignias({
     super.key,
     required this.nombreColeccion,
-    required this.nivel,
     required this.insignias,
     required this.tipoContador,
     required this.valorContador,
@@ -66,24 +65,13 @@ class ColeccionInsignias extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // NIVEL DE COLECCIÓN
-                Text(
-                  'Nivel $nivel',
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-
                 // ESPACIO ENTRE NIVEL Y INSIGNIAS
                 const SizedBox(height: 4),
 
                 // FILA DE INSIGNIAS
                 Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.center, // Centra horizontalmente
-                  children:
-                      insignias.map((insignia) {
+                  mainAxisAlignment: MainAxisAlignment.center, // Centra horizontalmente
+                  children: insignias.map((insignia) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: _buildInsignia(insignia, context),
@@ -98,15 +86,18 @@ class ColeccionInsignias extends StatelessWidget {
     );
   }
 
-  Widget _buildInsignia(Map<String, dynamic> insignia, BuildContext context) {
+  Widget _buildInsignia(InsigniaConEstado insignia, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Image.network(
-          insignia['url'],
+          insignia.urlImagen,
           height: 90,
           width: 90,
           fit: BoxFit.contain,
+          // Podemos agregar condición para mostrar desactivada si no está desbloqueada
+          color: insignia.desbloqueada ? null : Colors.grey,
+          colorBlendMode: insignia.desbloqueada ? BlendMode.srcIn : BlendMode.saturation,
         ),
         const SizedBox(height: 1),
 
@@ -114,8 +105,10 @@ class ColeccionInsignias extends StatelessWidget {
         SizedBox(
           width: 90,
           child: Text(
-            insignia['titulo'] ?? '',
-            style: Theme.of(context).textTheme.labelLarge,
+            insignia.nombre,
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+              color: insignia.desbloqueada ? null : Colors.grey,
+            ),
             textAlign: TextAlign.center,
             maxLines: 2,
             softWrap: true
