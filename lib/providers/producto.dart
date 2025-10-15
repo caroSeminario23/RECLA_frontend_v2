@@ -16,13 +16,13 @@ class ProductoProvider extends ChangeNotifier {
 
   //REGISTRO PRODUCTO
   Future<bool> registroPro(
-    int idProducto, int idVendedor,String urlFoto, double precio, int cantidad, String descripcion, bool comprado, int tipo, String material,String nombre) async {
+    int idVendedor,String urlFoto, double precio, int cantidad, String descripcion, bool comprado, int tipo, String material,String nombre) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     final request = ProductoRegistroRequest(
-      idProducto: idProducto,
+      //idProducto: idProducto,
       idVendedor: idVendedor,
       urlFoto: urlFoto,
       precio: precio,

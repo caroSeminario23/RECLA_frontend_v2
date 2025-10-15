@@ -1,6 +1,6 @@
 
 class ProductoRegistroRequest {
-  int idProducto;
+  //int idProducto;
   int idVendedor;
   String urlFoto;
   double precio;
@@ -12,7 +12,7 @@ class ProductoRegistroRequest {
   String nombre;
 
   ProductoRegistroRequest({
-    required this.idProducto,
+    //required this.idProducto,
     required this.idVendedor,
     required this.urlFoto,
     required this.precio,
@@ -25,7 +25,7 @@ class ProductoRegistroRequest {
   });
   Map<String, dynamic> toJson() {
     return {
-      'id_producto': idProducto,
+      //'id_producto': idProducto,
       'id_vendedor': idVendedor,
       'url_foto': urlFoto,
       'precio': precio,

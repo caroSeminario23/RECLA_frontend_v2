@@ -86,8 +86,7 @@ class _RegistroProductoState extends State<RegistroProducto> {
     try {
       final productoProvider = Provider.of<ProductoProvider>(context, listen: false);
       
-      final resultado = await productoProvider.registroPro(
-        0, // idProducto - se genera automáticamente
+      final resultado = await productoProvider.registroPro(// idProducto - se genera automáticamente
         1, // idVendedor - obtener del usuario logueado
         _urlFotoController.text,
         double.parse(_precioController.text),
@@ -318,8 +317,22 @@ class _RegistroProductoState extends State<RegistroProducto> {
                         if (value == null || value.isEmpty) {
                           return 'El precio es obligatorio';
                         }
-                        if (double.tryParse(value) == null) {
+                        final precio = double.tryParse(value);
+                        if (precio == null) {
                           return 'Ingresa un precio válido';
+                        }
+                        // Validar rango según la base de datos NUMERIC(5,2)
+                        if (precio > 999.99) {
+                          return 'El precio no puede ser mayor a 999.99';
+                        }
+                        
+                        if (precio <= 0) {
+                          return 'El precio debe ser mayor a 0';
+                        }
+                        
+                        // Validar decimales (máximo 2 decimales)
+                        if (value.contains('.') && value.split('.')[1].length > 2) {
+                          return 'El precio solo puede tener 2 decimales';
                         }
                         return null;
                       },
