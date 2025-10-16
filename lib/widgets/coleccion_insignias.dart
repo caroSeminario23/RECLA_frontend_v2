@@ -99,6 +99,7 @@ class ColeccionInsignias extends StatelessWidget {
           color: insignia.desbloqueada ? null : Colors.grey,
           colorBlendMode: insignia.desbloqueada ? BlendMode.srcIn : BlendMode.saturation,
         ),
+
         const SizedBox(height: 1),
 
         // TÍTULO DE LA INSIGNIA

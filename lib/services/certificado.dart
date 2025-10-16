@@ -1,27 +1,25 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
-import 'package:recla/models/insignia.dart';
+import 'package:recla/models/certificado.dart';
 import 'package:recla/utils/servicios_externos.dart';
 
-class InsigniaService {
-  final String baseUrl = '$servidorGamificacion/insignia_routes';
+class CertificadoService {
+  final String baseUrl = '$servidorGamificacion/certificado_routes';
 
-  // MOSTRAR INSIGNIAS
-  Future<List<InsigniaConEstado>> mostrarInsignias(int idUsuario, int tipoPuntos) async {
+  // MOSTRAR CERTIFICADOS
+  Future<List<CertificadoConEstado>> mostrarCertificados(int idUsuario) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/get_insignias_con_estado'),
+      Uri.parse('$baseUrl/get_certificados_con_estado'),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'id_usuario': idUsuario, 'tipo_ptos': tipoPuntos}),
+      body: jsonEncode({'id_usuario': idUsuario}),
     );
 
     // Imprimir la respuesta
-    //print('Respuesta para tipoPuntos $tipoPuntos: ${response.body}');
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonResp = jsonDecode(response.body);
       final List<dynamic> data = jsonResp['data'];
 
-      return data.map((json) => InsigniaConEstado.fromJson(json)).toList();
+      return data.map((json) => CertificadoConEstado.fromJson(json)).toList();
     } else {
       String message;
       try {
@@ -30,7 +28,7 @@ class InsigniaService {
       } catch (_) {
         message = response.body;
       }
-      throw Exception('Error al obtener insignias: ${response.statusCode} - $message');
+      throw Exception('Error al obtener certificados: ${response.statusCode} - $message');
     }
   }
 }

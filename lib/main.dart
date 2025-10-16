@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:recla/providers/estatus.dart';
 import 'package:recla/providers/usuario.dart';
 import 'package:recla/providers/insignia.dart';
+import 'package:recla/providers/certificado.dart';
 import 'package:recla/config/theme.dart';
 import 'package:recla/screens/bienvenida.dart';
 
@@ -15,6 +16,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => UsuarioProvider()),
         ChangeNotifierProvider(create: (_) => EstatusProvider()),
         ChangeNotifierProvider(create: (_) => InsigniaProvider()),
+        ChangeNotifierProvider(create: (_) => CertificadoProvider()),
       ],
       child: const MyApp(),
     ),

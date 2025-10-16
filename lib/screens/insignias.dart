@@ -60,11 +60,11 @@ class _InsigniasPaginaState extends State<InsigniasPagina> {
     });
 
     await insigniaProvider.obtenerInsignias(idUsuario, 1); //compras
-    print("Insignias compra: ${insigniaProvider.insigniasCompra.length}");
+    //print("Insignias compra: ${insigniaProvider.insigniasCompra.length}");
     await insigniaProvider.obtenerInsignias(idUsuario, 2); //ventas
-    print("Insignias venta: ${insigniaProvider.insigniasVenta.length}");
+    //print("Insignias venta: ${insigniaProvider.insigniasVenta.length}");
     await insigniaProvider.obtenerInsignias(idUsuario, 3); //recursos educativos
-    print("Insignias recursos educativos: ${insigniaProvider.insigniasRecursos.length}");
+    //print("Insignias recursos educativos: ${insigniaProvider.insigniasRecursos.length}");
   }
 
   @override
