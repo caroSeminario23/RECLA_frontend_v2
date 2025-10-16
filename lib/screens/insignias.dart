@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recla/providers/estatus.dart';
 
+import 'package:recla/providers/estatus.dart';
 import 'package:recla/providers/insignia.dart';
 import 'package:recla/providers/usuario.dart';
 import 'package:recla/screens/beneficios.dart';
