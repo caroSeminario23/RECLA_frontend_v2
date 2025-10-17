@@ -35,7 +35,7 @@ class BotonPrecio extends StatelessWidget {
           ),
           const SizedBox(width: 1), // Espacio entre el precio y el icono
           Image.asset(
-            'assets/images/icons/boton_plastico.png',
+            'assets/images/dinero.webp',
             //'assets/images/icons/precio.png',
             width: 20, // Ajusta el tamaño del icono si es necesario
             height: 20, // Ajusta el tamaño del icono si es necesario

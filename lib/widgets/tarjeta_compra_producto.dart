@@ -90,7 +90,7 @@ class TarjetaCompraProductos extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           Image.asset(
-                            'assets/images/logo-principal.png',
+                            'assets/images/dinero.webp',
                             width: 20,
                             height: 20,
                           ),
