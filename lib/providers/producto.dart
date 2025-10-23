@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:developer' as developer;
+
 import 'package:recla/models/producto.dart';
 import 'package:recla/services/producto.dart';
 
@@ -49,7 +51,7 @@ class ProductoProvider extends ChangeNotifier {
   }
   //FILTRAR PRODUCTOS
   Future<List<ProductoFiltradoResponse>> filtrarP(List<int> tipo, String material) async {
-    print('{tipo: $tipo, material: "$material"}');
+    developer.log('{Filtrar productos - tipo: $tipo, material: "$material"}');
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
@@ -61,14 +63,16 @@ class ProductoProvider extends ChangeNotifier {
 
     try {
       final response = await _productoService.filtrarProductos(request);
-      print('Productos filtrados recibidos: $response');
+      developer.log('Productos filtrados recibidos: $response');
+      developer.log('Productos filtrados recibidos: ${response.length} items');
       _productosFiltrados = response;
-      print('Productos filtrados en provider: $_productosFiltrados');
+      developer.log('Productos filtrados en provider: $_productosFiltrados');
+      developer.log('Productos filtrados en provider: ${_productosFiltrados.length} items');
       _errorMessage = null;
       return response;
     } catch (e) {
       _errorMessage = 'Error al filtrar productos';
-      print('Error al filtrar productos: $e');
+      developer.log('Error al filtrar productos: $e');
       return [];
     } finally {
       _isLoading = false;
@@ -82,7 +86,7 @@ class ProductoProvider extends ChangeNotifier {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
-    print('Buscando detalle para producto ID: $idProducto');
+    developer.log('Buscando detalle para producto ID: $idProducto');
     final request = ProductoDetalleRequest(idProducto: idProducto);
 
     try {

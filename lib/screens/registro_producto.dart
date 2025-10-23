@@ -10,6 +10,7 @@ import 'package:recla/widgets/botones_tipo_material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:recla/widgets/navbar.dart';
 
 class RegistroProducto extends StatefulWidget {
   const RegistroProducto({super.key});
@@ -220,6 +221,9 @@ class _RegistroProductoState extends State<RegistroProducto> {
         _nombreController.text,
       );
 
+      // Verificar si el widget aún está montado antes de usar context
+      if (!mounted) return;
+
       if (resultado) {
         _mostrarSnackBar('¡Producto registrado exitosamente!', Colors.green);
         _limpiarCampos();
@@ -228,9 +232,12 @@ class _RegistroProductoState extends State<RegistroProducto> {
         _mostrarSnackBar('Error al registrar el producto', Colors.red);
       }
     } catch (e) {
+      if (!mounted) return;
       _mostrarSnackBar('Error: $e', Colors.red);
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
@@ -431,6 +438,11 @@ class _RegistroProductoState extends State<RegistroProducto> {
             ],
           ),
         ),
+      ),
+
+      bottomNavigationBar: NavBar(
+        opcionSeleccionada: opcionSeleccionada,
+        onItemTapped: _onItemTapped,
       ),
     );
   }

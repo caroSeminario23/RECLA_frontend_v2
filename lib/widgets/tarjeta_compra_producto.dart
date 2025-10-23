@@ -30,7 +30,7 @@ class TarjetaCompraProductos extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceVariant,
+          color: Theme.of(context).colorScheme.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(12.0),
           border: Border.all(
             color: Theme.of(context).colorScheme.primary,
@@ -83,7 +83,7 @@ class TarjetaCompraProductos extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            '\$${precio}',
+                            '\$$precio',
                             style: Theme.of(context).textTheme.labelMedium?.copyWith(
                                   color: Theme.of(context).colorScheme.onSurface,
                                 ),

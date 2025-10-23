@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:developer' as developer;
+
 import 'package:recla/models/producto.dart';
 import 'package:recla/providers/producto.dart';
 import 'package:recla/screens/perfil_eco.dart';
@@ -68,8 +70,9 @@ class _CompraProductosState extends State<CompraProductosPagina> {
   }
 
   Future<void> _buscarProductos() async {
-    print('Buscar productos con tipo: $_tipoSeleccionado y materiales: $_materialesSeleccionados');
-    if (_tipoSeleccionado == null || _materialesSeleccionados.isEmpty) {
+    developer.log('Buscar productos con tipo: $_tipoSeleccionado y materiales: $_materialesSeleccionados');
+    if (_tipoSeleccionado.isEmpty || _materialesSeleccionados.isEmpty) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Selecciona tipo y material")),
       );
@@ -77,16 +80,21 @@ class _CompraProductosState extends State<CompraProductosPagina> {
     }
 
     final materialString = _materialesSeleccionados.join(",");
-    print('Materiales seleccionados como string: $materialString');
+    developer.log('Materiales seleccionados como string: $materialString');
     final productos = await Provider.of<ProductoProvider>(
       context,
       listen: false,
     ).filtrarP(_tipoSeleccionado, materialString);
-    print('Productos filtrados: $productos');
+    developer.log('Productos filtrados: $productos');
+    developer.log('Productos filtrados: ${productos.length} items');
+    
+    if (!mounted) return;
+
     setState(() {
       _productos = productos;
     });
-    print('Productos encontrados: ${_productos}');
+    developer.log('Productos encontrados: $_productos');
+    developer.log('Productos encontrados: ${_productos.length}');
   }
 
   @override
@@ -157,9 +165,7 @@ class _CompraProductosState extends State<CompraProductosPagina> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent:
-                          constraints.maxWidth /
-                          (constraints.maxWidth > 600 ? 3 : 2),
+                      maxCrossAxisExtent: maxCrossAxisExtent,
                       crossAxisSpacing: 8,
                       mainAxisSpacing: 8,
                       childAspectRatio: 0.75,

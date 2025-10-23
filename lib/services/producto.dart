@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'dart:developer' as developer;
+
 import 'package:recla/models/producto.dart';
 import 'package:recla/utils/servicios_externos.dart';
 
@@ -34,7 +36,7 @@ class ProductoService {
 
   //FILTRAR PRODUCTOS
   Future<List<ProductoFiltradoResponse>> filtrarProductos(ProductoFiltradoRequest request) async {
-    print('Request JSON: ${request.toJson()}');
+    developer.log('Request JSON: ${request.toJson()}');
     final response = await http.post(
       Uri.parse('$baseUrl/filtrar_productos'),
       headers: {'Content-Type': 'application/json'},
@@ -43,7 +45,7 @@ class ProductoService {
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonResp = jsonDecode(response.body);
       final List<dynamic> data = jsonResp['data'];
-      print('Response Data: $data');
+      developer.log('Response Data: $data');
       return data
           .map((item) => ProductoFiltradoResponse.fromJson(item))
           .toList();

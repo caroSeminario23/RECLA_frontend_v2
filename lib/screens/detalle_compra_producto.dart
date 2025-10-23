@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:developer' as developer;
+
 import 'package:recla/models/producto.dart';
 import 'package:recla/providers/producto.dart';
 import 'package:recla/screens/compra_productos.dart';
@@ -59,20 +61,19 @@ class _DetalleCompraProductoState extends State<DetalleCompraProducto> {
   Future<void> _cargarDetalleProducto() async {
     try {
       final productoProvider = Provider.of<ProductoProvider>(context, listen: false);
-      print('Buscando producto con ID: ${widget.id}');
-      print('Lista filtrada tiene ${productoProvider.productosFiltrados.length} productos');
+      developer.log('Buscando producto con ID: ${widget.id}');
+      developer.log('Lista filtrada tiene ${productoProvider.productosFiltrados.length} productos');
       // Buscar producto básico de la lista filtrada
       _producto = productoProvider.productosFiltrados
           .firstWhere((prod) => prod.idProducto == widget.id);
-      print('Producto encontrado: ${_producto?.nombre}');
+      developer.log('Producto encontrado: ${_producto?.nombre}');
       // Obtener detalles adicionales
       _detalleProducto = await productoProvider.detalleP(widget.id);
       //mostrar detalles en consola
-      print('idProducto: ${_detalleProducto?.idProducto}');
-      print('idvendedor: ${_detalleProducto?.idVendedor}');
-      print('Descripción del producto: ${_detalleProducto?.descripcion}');
-      
-      
+      developer.log('idProducto: ${_detalleProducto?.idProducto}');
+      developer.log('idvendedor: ${_detalleProducto?.idVendedor}');
+      developer.log('Descripción del producto: ${_detalleProducto?.descripcion}');
+
       setState(() {
         _isLoading = false;
       });
