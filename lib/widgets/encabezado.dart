@@ -10,7 +10,7 @@ class Encabezado extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(arStickers,
+        Image.asset(logoSecundario,
             width: 70, height: 70),
         const SizedBox(width: 5),
         
