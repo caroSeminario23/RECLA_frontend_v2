@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:recla/providers/estatus.dart';
 import 'package:recla/providers/producto.dart';
 import 'package:recla/providers/stickers.dart';
+import 'package:recla/providers/tabla_clasificacion.dart';
 import 'package:recla/providers/usuario.dart';
 import 'package:recla/providers/insignia.dart';
 import 'package:recla/providers/certificado.dart';
@@ -21,6 +22,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => CertificadoProvider()),
         ChangeNotifierProvider(create: (_) => StickerProvider()),
         ChangeNotifierProvider(create: (_) => ProductoProvider()),
+        ChangeNotifierProvider(create: (_) => TablaClasificacionProvider()),
         //ChangeNotifierProvider(create: (_) => VentaProvider()),
       ],
       child: const MyApp(),

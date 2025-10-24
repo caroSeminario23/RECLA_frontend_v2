@@ -4,7 +4,7 @@ import 'dart:developer' as developer;
 
 import 'package:recla/models/producto.dart';
 import 'package:recla/providers/producto.dart';
-import 'package:recla/screens/compra_productos.dart';
+import 'package:recla/screens/beneficios.dart';
 import 'package:recla/screens/perfil_eco.dart';
 import 'package:recla/screens/tabla_clasificacion.dart';
 import 'package:recla/widgets/boton_precio.dart';
@@ -42,10 +42,10 @@ class _DetalleCompraProductoState extends State<DetalleCompraProducto> {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => const TablaClasificacionPagina()),
       );
-    } else if (index == 0) {
-      Navigator.of(
-        context,
-      ).push(MaterialPageRoute(builder: (_) => const CompraProductosPagina()));
+    } else if (index == 1) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const BeneficiosPagina()),
+      );
     }
   }
 

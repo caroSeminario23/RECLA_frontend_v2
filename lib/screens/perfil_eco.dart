@@ -9,7 +9,7 @@ import 'package:recla/screens/compra_productos.dart';
 import 'package:recla/screens/insignias_persona.dart';
 import 'package:recla/screens/productos_persona.dart';
 import 'package:recla/screens/tabla_clasificacion.dart';
-import 'package:recla/utils/servicios_externos.dart';
+import 'package:recla/utils/ref_imagenes.dart';
 import 'package:recla/widgets/barra_puntos.dart';
 import 'package:recla/widgets/navbar.dart';
 import 'package:recla/widgets/presentacion_usuario.dart';
@@ -80,7 +80,7 @@ class _PerfilEcoPaginaState extends State<PerfilEcoPagina> {
         actions: [
           IconButton(
             icon: Image.asset(
-              'assets/images/ar_stickers.png',
+              arStickers,
               width: 24,
               height: 24,
             ),
@@ -106,7 +106,7 @@ class _PerfilEcoPaginaState extends State<PerfilEcoPagina> {
               child: Consumer2<EstatusProvider, UsuarioProvider>(
                 builder: (context, estatusProvider, usuarioProvider, child) {
                   return PresentacionUsuario(
-                    fotoAprendiz: perfilPredeterminado,
+                    fotoAprendiz: fotoPerfilPredeterminado,
                     experiencia: estatusProvider.ptosExperiencia ?? 0,
                     nombre: usuarioProvider.username ?? 'Nombre Apellido',
                   );

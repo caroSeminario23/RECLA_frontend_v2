@@ -32,7 +32,7 @@ class PresentacionUsuario extends StatelessWidget {
                 ),
               ),
               child: CircleAvatar(
-                backgroundImage: NetworkImage(fotoAprendiz),
+                backgroundImage: AssetImage(fotoAprendiz),
                 backgroundColor: Colors.transparent,
               ),
             ),

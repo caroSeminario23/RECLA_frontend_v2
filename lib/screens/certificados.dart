@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recla/screens/beneficios.dart';
 
+import 'package:recla/screens/beneficios.dart';
 import 'package:recla/screens/compra_productos.dart';
 import 'package:recla/screens/perfil_eco.dart';
 import 'package:recla/screens/tabla_clasificacion.dart';

@@ -35,7 +35,7 @@ class _RecursosEducativosPaginaState extends State<RecursosEducativosPagina> {
       Navigator.of(
         context,
       ).push(MaterialPageRoute(builder: (_) => const CompraProductosPagina()));
-    }
+    } 
   }
 
   @override

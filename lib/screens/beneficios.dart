@@ -37,7 +37,7 @@ class _BeneficiosPaginaState extends State<BeneficiosPagina> {
       Navigator.of(
         context,
       ).push(MaterialPageRoute(builder: (_) => const CompraProductosPagina()));
-    }
+    } 
   }
 
   @override

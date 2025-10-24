@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recla/utils/ref_imagenes.dart';
 
 class NavBar extends StatelessWidget {
   final int opcionSeleccionada;
@@ -13,11 +14,11 @@ class NavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final iconPaths = [
-      'assets/images/ventas.webp',
-      'assets/images/beneficios.webp',
-      'assets/images/clasificacion.webp',
-      'assets/images/chats.webp',
-      'assets/images/perfil.webp',
+      ventas,
+      beneficios,
+      clasificacion,
+      chats,
+      perfil,
     ];
 
     return Container(

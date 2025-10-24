@@ -26,3 +26,27 @@ class CertificadoConEstado {
     );
   }
 }
+
+
+class CertificadoDesbloqueado {
+  final int idCertificado;
+  final int nivel;
+  final String nombre;
+  final String urlImagen;
+
+  CertificadoDesbloqueado({
+    required this.idCertificado,
+    required this.nivel,
+    required this.nombre,
+    required this.urlImagen,
+  });
+
+  factory CertificadoDesbloqueado.fromJson(Map<String, dynamic> json) {
+    return CertificadoDesbloqueado(
+      idCertificado: json['id_certificado'] as int,
+      nivel: json['nivel'] as int,
+      nombre: json['nombre'] as String,
+      urlImagen: json['url_imagen'] as String,
+    );
+  }
+}

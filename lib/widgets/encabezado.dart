@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recla/utils/ref_imagenes.dart';
 
 class Encabezado extends StatelessWidget {
 
@@ -9,9 +10,10 @@ class Encabezado extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset('assets/ar_stickers.png',
+        Image.asset(arStickers,
             width: 70, height: 70),
         const SizedBox(width: 5),
+        
 
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,

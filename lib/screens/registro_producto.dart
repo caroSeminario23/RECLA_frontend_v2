@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recla/providers/producto.dart';
 import 'package:recla/providers/usuario.dart';
+import 'package:recla/screens/beneficios.dart';
 import 'package:recla/screens/compra_productos.dart';
 import 'package:recla/screens/perfil_eco.dart';
 import 'package:recla/screens/tabla_clasificacion.dart';
@@ -20,7 +21,7 @@ class RegistroProducto extends StatefulWidget {
 }
 
 class _RegistroProductoState extends State<RegistroProducto> {
-  int opcionSeleccionada = 1;
+  int opcionSeleccionada = 0;
 
   final _formKey = GlobalKey<FormState>();
   final _nombreController = TextEditingController();
@@ -51,9 +52,9 @@ class _RegistroProductoState extends State<RegistroProducto> {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => const TablaClasificacionPagina()),
       );
-    } else if (index == 0) {
+    } else if (index == 1) {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => const CompraProductosPagina()));
+        MaterialPageRoute(builder: (_) => const BeneficiosPagina()));
     }
   }
   
@@ -279,8 +280,12 @@ class _RegistroProductoState extends State<RegistroProducto> {
         title: Text('VENTA DE PRODUCTOS',
             style: Theme.of(context).textTheme.titleMedium),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
+          icon: const Icon(Icons.arrow_back_outlined),
+          onPressed: () {
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => const CompraProductosPagina()));
+          },
         ),
       ),
       body: Form(

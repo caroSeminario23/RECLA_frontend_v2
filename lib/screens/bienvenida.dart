@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recla/utils/ref_imagenes.dart';
 
 import 'login.dart';
 
@@ -28,7 +29,7 @@ class _BienvenidaScreenState extends State<BienvenidaScreen> {
     return Scaffold(
       body: Center(
         child: Image.asset(
-          'assets/images/logo-principal.png',
+          logoPrincipal,
           width: 250,
           height: 250,
         ),

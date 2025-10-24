@@ -31,4 +31,32 @@ class CertificadoService {
       throw Exception('Error al obtener certificados: ${response.statusCode} - $message');
     }
   }
+
+
+
+  // MOSTRAR CERTIFICADOS DESBLOQUEADOS POR UN USUARIO
+  Future<List<CertificadoDesbloqueado>> mostrarCertificadosDesbloqueados(int idUsuario) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/get_certificados_desbloqueados_usuario'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'id_usuario': idUsuario}),
+    );
+
+    // Imprimir la respuesta
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> jsonResp = jsonDecode(response.body);
+      final List<dynamic> data = jsonResp['data'];
+
+      return data.map((json) => CertificadoDesbloqueado.fromJson(json)).toList();
+    } else {
+      String message;
+      try {
+        final Map<String, dynamic> err = jsonDecode(response.body);
+        message = err['message'] ?? response.body;
+      } catch (_) {
+        message = response.body;
+      }
+      throw Exception('Error al obtener certificados: ${response.statusCode} - $message');
+    }
+  }
 }

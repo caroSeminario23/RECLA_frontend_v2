@@ -23,6 +23,7 @@ class _RegistroEcoState extends State<RegistroEco> {
 
   DateTime? _fecNacimiento;
 
+
   Future<void> _handleRegistro() async {
     if (_formKey.currentState!.validate()) {
       final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);
@@ -314,7 +315,8 @@ class _RegistroEcoState extends State<RegistroEco> {
             ),
           )
         )
-      )
+      ),
+
     );
   }
 }

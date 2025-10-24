@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recla/models/sticker.dart';
+import 'package:recla/utils/ref_imagenes.dart';
 
 class ItemSticker extends StatelessWidget {
   final StickersConEstado sticker;
@@ -62,7 +63,7 @@ class ItemSticker extends StatelessWidget {
 
                     // ICONO DE LA APLICACION
                     Image.asset(
-                      'assets/images/racha.webp',
+                      monedas,
                       width: 20,
                       height: 20,
                     ),

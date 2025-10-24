@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recla/screens/detalle_compra_producto.dart'; // ← Agregar import
+import 'package:recla/screens/detalle_compra_producto.dart';
+import 'package:recla/utils/ref_imagenes.dart'; // ← Agregar import
 
 class TarjetaCompraProductos extends StatelessWidget {
   final String fotoProducto;
@@ -90,7 +91,7 @@ class TarjetaCompraProductos extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           Image.asset(
-                            'assets/images/dinero.webp',
+                            dinero,
                             width: 20,
                             height: 20,
                           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recla/utils/ref_imagenes.dart';
 
 class BotonPrecio extends StatelessWidget {
   final String precio;
@@ -35,7 +36,7 @@ class BotonPrecio extends StatelessWidget {
           ),
           const SizedBox(width: 1), // Espacio entre el precio y el icono
           Image.asset(
-            'assets/images/dinero.webp',
+            dinero,
             //'assets/images/icons/precio.png',
             width: 20, // Ajusta el tamaño del icono si es necesario
             height: 20, // Ajusta el tamaño del icono si es necesario
