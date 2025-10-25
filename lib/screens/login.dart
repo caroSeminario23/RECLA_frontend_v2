@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:recla/providers/usuario.dart';
 import 'package:recla/screens/perfil_eco.dart';
 import 'package:recla/screens/registro_eco.dart';
+import 'package:recla/utils/ref_imagenes.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -67,7 +68,7 @@ class _LoginState extends State<Login> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Logo
-                Image.asset('assets/images/logo-secundario.png',
+                Image.asset(logoSecundario,
                     width: 100, height: 100),
                 const SizedBox(height: 16),
 

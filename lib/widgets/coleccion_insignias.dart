@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recla/models/insignia.dart';
 import 'package:recla/utils/ref_imagenes.dart';
+import 'package:recla/widgets/insignia_desbloqueo_dialog.dart';
 
 class ColeccionInsignias extends StatelessWidget {
   final String nombreColeccion;
@@ -87,6 +88,52 @@ class ColeccionInsignias extends StatelessWidget {
   }
 
   Widget _buildInsignia(InsigniaConEstado insignia, BuildContext context) {
+    return GestureDetector(
+      onTap: !insignia.desbloqueada
+          ? () {
+              showDialog(
+                context: context,
+                builder: (context) => InsigniaDesbloqueoDialog(
+                  //nombreInsignia: insignia.nombre,
+                  idInsignia: insignia.idInsignia,
+                  urlImagen: insignia.urlImagen,
+                  //descripcion: insignia.descripcion ?? '',
+                  comprasRequeridas: insignia.ptosNecesarios, // Ajusta según tu lógica
+                ),
+              );
+            }
+          : null,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.network(
+            insignia.urlImagen,
+            height: 90,
+            width: 90,
+            fit: BoxFit.contain,
+            color: insignia.desbloqueada ? null : Colors.grey,
+            colorBlendMode: insignia.desbloqueada ? BlendMode.srcIn : BlendMode.saturation,
+          ),
+
+          const SizedBox(height: 1),
+
+          // TÍTULO DE LA INSIGNIA
+          SizedBox(
+            width: 90,
+            child: Text(
+              insignia.nombre,
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                color: insignia.desbloqueada ? null : Colors.grey,
+              ),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              softWrap: true,
+            ),
+          ),
+        ],
+      ),
+    );
+    /*
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -117,5 +164,9 @@ class ColeccionInsignias extends StatelessWidget {
         ),
       ],
     );
+    */
   }
+
+
+  
 }

@@ -3,6 +3,7 @@ class InsigniaConEstado {
   String nombre;
   String urlImagen;
   int nivel;
+  int ptosNecesarios;
   bool desbloqueada;
 
   InsigniaConEstado({
@@ -10,6 +11,7 @@ class InsigniaConEstado {
     required this.nombre,
     required this.urlImagen,
     required this.nivel,
+    required this.ptosNecesarios,
     required this.desbloqueada,
   });
 
@@ -19,6 +21,7 @@ class InsigniaConEstado {
       nombre: json['nombre'] as String,
       urlImagen: json['url_imagen'] as String,
       nivel: json['nivel'] as int,
+      ptosNecesarios: json['ptos_necesarios'] as int,
       desbloqueada: json['desbloqueado'] as bool,
     );
   }
