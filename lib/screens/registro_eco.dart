@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recla/providers/usuario.dart';
+import 'package:recla/screens/login.dart';
 import 'package:recla/widgets/encabezado.dart';
 import 'package:intl/intl.dart';
 
@@ -85,6 +86,24 @@ class _RegistroEcoState extends State<RegistroEco> {
     final usuarioProvider = Provider.of<UsuarioProvider>(context);
 
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          'REGISTRO ECOAPRENDIZ',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_outlined),
+          onPressed: () {
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => const Login()));
+          },
+        ),
+      ),
+
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
