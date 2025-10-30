@@ -10,11 +10,14 @@ class ProductoProvider extends ChangeNotifier {
   String? _errorMessage;
   bool? _isRegistered = false;
   List<ProductoFiltradoResponse> _productosFiltrados = [];
+  List<ProductoConsultaCompleta> _productosVendedor = [];
   
   bool? get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   bool? get isRegistered => _isRegistered;
   List<ProductoFiltradoResponse> get productosFiltrados => _productosFiltrados;
+  List<ProductoConsultaCompleta> get productosVendedor => _productosVendedor;
+
 
   //REGISTRO PRODUCTO
   Future<bool> registroPro(
@@ -96,6 +99,34 @@ class ProductoProvider extends ChangeNotifier {
     } catch (e) {
       _errorMessage = 'Error al obtener detalle del producto';
       return null;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+
+  // CONSULTA PRODUCTOS VENDEDOR
+  Future<bool> obtenerProductosVendedor(int idVendedor) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      //print('📡 Provider: Llamando al servicio con idVendedor: $idVendedor');
+      final response = await _productoService.obtenerProductosVendedor(idVendedor);
+
+      //print('📥 Provider: Respuesta recibida del servicio: $response');
+      //print('📊 Provider: Cantidad de productos: ${response.length}');
+
+      _productosVendedor = response;
+      //print('✅ Provider: Productos asignados a _productosVendedor: ${_productosVendedor.length}');
+      _errorMessage = null;
+      return true;
+    } catch (e) {
+      //print('❌ Provider: Error - $e');
+      _errorMessage = 'Error al obtener productos del vendedor';
+      return false;
     } finally {
       _isLoading = false;
       notifyListeners();

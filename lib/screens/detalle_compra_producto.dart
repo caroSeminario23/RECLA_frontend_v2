@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'dart:developer' as developer;
 
 import 'package:recla/models/producto.dart';
 import 'package:recla/providers/producto.dart';
@@ -15,7 +14,8 @@ import 'package:recla/widgets/navbar.dart';
 
 class DetalleCompraProducto extends StatefulWidget {
   final int id;
-  const DetalleCompraProducto({super.key, required this.id});
+  final int opcion;
+  const DetalleCompraProducto({super.key, required this.id, required this.opcion});
 
   @override
   State<DetalleCompraProducto> createState() => _DetalleCompraProductoState();
@@ -26,6 +26,8 @@ class _DetalleCompraProductoState extends State<DetalleCompraProducto> {
 
   ProductoDetalleResponse? _detalleProducto;
   ProductoFiltradoResponse? _producto;
+  //ProductoConsultaCompleta? _productoCompleto;
+
   bool _isLoading = true;
 
   void _onItemTapped(int index) {
@@ -53,31 +55,41 @@ class _DetalleCompraProductoState extends State<DetalleCompraProducto> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _cargarDetalleProducto();
+      _cargarDetalleProducto(widget.opcion);
     });
     //_cargarDetalleProducto();
   }
 
-  Future<void> _cargarDetalleProducto() async {
+  Future<void> _cargarDetalleProducto(int opcion) async {
     try {
       final productoProvider = Provider.of<ProductoProvider>(context, listen: false);
-      developer.log('Buscando producto con ID: ${widget.id}');
-      developer.log('Lista filtrada tiene ${productoProvider.productosFiltrados.length} productos');
-      // Buscar producto básico de la lista filtrada
-      _producto = productoProvider.productosFiltrados
-          .firstWhere((prod) => prod.idProducto == widget.id);
-      developer.log('Producto encontrado: ${_producto?.nombre}');
-      // Obtener detalles adicionales
-      _detalleProducto = await productoProvider.detalleP(widget.id);
-      //mostrar detalles en consola
-      developer.log('idProducto: ${_detalleProducto?.idProducto}');
-      developer.log('idvendedor: ${_detalleProducto?.idVendedor}');
-      developer.log('Descripción del producto: ${_detalleProducto?.descripcion}');
 
-      setState(() {
-        _isLoading = false;
-      });
-    } catch (e) {
+      if (opcion == 1) {
+        _producto = productoProvider.productosFiltrados
+          .firstWhere((prod) => prod.idProducto == widget.id);
+          //_detalleProducto = await productoProvider.detalleP(widget.id); 
+      } else if (opcion == 2) {
+        final productoCompleto = productoProvider.productosVendedor
+          .firstWhere((prod) => prod.idProducto == widget.id);
+
+        // Convertir ProductoConsultaCompleta a ProductoFiltradoResponse
+        _producto = ProductoFiltradoResponse(
+          idProducto: productoCompleto.idProducto,
+          urlFoto: productoCompleto.urlFoto,
+          precio: productoCompleto.precio,
+          cantidad: productoCompleto.cantidad,
+          tipo: productoCompleto.tipo,
+          nombre: productoCompleto.nombre,
+        );
+        //_productoCompleto = productoCompleto;
+      }
+    
+    _detalleProducto = await productoProvider.detalleP(widget.id);
+
+    setState(() {
+      _isLoading = false;
+    });
+  } catch (e) {
       setState(() {
         _isLoading = false;
       });

@@ -8,6 +8,7 @@ class TarjetaCompraProductos extends StatelessWidget {
   final int tipo;
   final int precio;
   final int idProducto; // ← Agregar este campo
+  final int opcion;
 
   const TarjetaCompraProductos({
     super.key,
@@ -16,6 +17,7 @@ class TarjetaCompraProductos extends StatelessWidget {
     required this.tipo,
     required this.precio,
     required this.idProducto, // ← Agregar aquí
+    required this.opcion, // ← Agregar aquí
   });
 
   @override
@@ -25,7 +27,7 @@ class TarjetaCompraProductos extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetalleCompraProducto(id: idProducto),
+            builder: (context) => DetalleCompraProducto(id: idProducto, opcion: opcion),
           ),
         );
       },

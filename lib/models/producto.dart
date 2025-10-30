@@ -121,7 +121,43 @@ class ProductoDetalleResponse {
 }
 
 
+class ProductoConsultaCompleta {
+  int idProducto;
+  int idVendedor;
+  String urlFoto;
+  double precio;
+  int cantidad;
+  String descripcion;
+  bool comprado;
+  int tipo;
+  String material;
+  String nombre;
 
-
-
-
+  ProductoConsultaCompleta({
+    required this.idProducto,
+    required this.idVendedor,
+    required this.urlFoto,
+    required this.precio,
+    required this.cantidad,
+    required this.descripcion,
+    required this.comprado,
+    required this.tipo,
+    required this.material,
+    required this.nombre,
+  });
+  
+  factory ProductoConsultaCompleta.fromJson(Map<String, dynamic> json) {
+    return ProductoConsultaCompleta(
+      idProducto: json['id_producto'] as int,
+      idVendedor: json['id_vendedor'] as int,
+      urlFoto: json['url_foto'] as String,
+      precio: double.parse(json['precio'] as String),
+      cantidad: json['cantidad'] as int,
+      descripcion: json['descripcion'] as String,
+      comprado: json['comprado'] as bool,
+      tipo: json['tipo'] as int,
+      material: json['material'] as String,
+      nombre: json['nombre'] as String,
+    );
+  }
+}

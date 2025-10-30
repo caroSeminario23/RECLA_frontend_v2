@@ -181,6 +181,7 @@ class _CompraProductosState extends State<CompraProductosPagina> {
                         tipo: producto.tipo,
                         precio: producto.precio.toInt(),
                         idProducto: producto.idProducto, // ← Agregar esta línea
+                        opcion: 1
                       );
                     },
                     /*itemBuilder: (context, index) {
