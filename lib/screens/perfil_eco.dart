@@ -7,6 +7,7 @@ import 'package:recla/screens/beneficios.dart';
 import 'package:recla/screens/certificados_persona.dart';
 import 'package:recla/screens/compra_productos.dart';
 import 'package:recla/screens/insignias_persona.dart';
+import 'package:recla/screens/login.dart';
 import 'package:recla/screens/productos_persona.dart';
 import 'package:recla/screens/tabla_clasificacion.dart';
 import 'package:recla/utils/ref_imagenes.dart';
@@ -75,6 +76,14 @@ class _PerfilEcoPaginaState extends State<PerfilEcoPagina> {
         title: Text(
           'PERFIL ECOAPRENDIZ',
           style: Theme.of(context).textTheme.titleMedium,
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.exit_to_app),
+          onPressed: () {
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => const Login()));
+          },
         ),
         automaticallyImplyLeading: false,
         actions: [

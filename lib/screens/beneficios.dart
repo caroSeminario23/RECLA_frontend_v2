@@ -3,6 +3,7 @@ import 'package:recla/screens/certificados.dart';
 
 import 'package:recla/screens/compra_productos.dart';
 import 'package:recla/screens/insignias.dart';
+import 'package:recla/screens/login.dart';
 import 'package:recla/screens/perfil_eco.dart';
 import 'package:recla/screens/recursos_educativos.dart';
 import 'package:recla/screens/stickers.dart';
@@ -49,6 +50,14 @@ class _BeneficiosPaginaState extends State<BeneficiosPagina> {
         title: Text(
           'BENEFICIOS Y MARKETPLACE',
           style: Theme.of(context).textTheme.titleMedium,
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.exit_to_app),
+          onPressed: () {
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => const Login()));
+          },
         ),
         automaticallyImplyLeading: false,
       ),

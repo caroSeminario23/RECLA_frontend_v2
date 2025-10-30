@@ -5,6 +5,7 @@ import 'dart:developer' as developer;
 import 'package:recla/models/producto.dart';
 import 'package:recla/providers/producto.dart';
 import 'package:recla/screens/beneficios.dart';
+import 'package:recla/screens/login.dart';
 import 'package:recla/screens/perfil_eco.dart';
 import 'package:recla/screens/tabla_clasificacion.dart';
 import 'package:recla/widgets/botones_tipo.dart';
@@ -107,6 +108,14 @@ class _CompraProductosState extends State<CompraProductosPagina> {
         title: Text(
           'COMPRA DE PRODUCTOS',
           style: Theme.of(context).textTheme.titleMedium,
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.exit_to_app),
+          onPressed: () {
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => const Login()));
+          },
         ),
         automaticallyImplyLeading: false,
         actions: [

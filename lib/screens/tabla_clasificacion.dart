@@ -7,6 +7,7 @@ import 'package:recla/providers/tabla_clasificacion.dart';
 import 'package:recla/providers/usuario.dart';
 import 'package:recla/screens/beneficios.dart';
 import 'package:recla/screens/compra_productos.dart';
+import 'package:recla/screens/login.dart';
 import 'package:recla/screens/perfil_eco.dart';
 import 'package:recla/utils/ref_imagenes.dart';
 import 'package:recla/widgets/navbar.dart';
@@ -79,6 +80,14 @@ class _TablaClasificacionPaginaState extends State<TablaClasificacionPagina> {
         title: Text(
           'TABLA DE CLASIFICACIÓN',
           style: Theme.of(context).textTheme.titleMedium,
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.exit_to_app),
+          onPressed: () {
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => const Login()));
+          },
         ),
         automaticallyImplyLeading: false,
       ),
