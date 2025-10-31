@@ -6,6 +6,8 @@ import 'package:recla/widgets/boton_precio.dart';
 import 'package:recla/widgets/botones_tipo.dart';
 import 'package:recla/widgets/botones_tipo_material.dart';
 import 'package:recla/widgets/componente_detalles_y_comprar.dart';
+// Asegúrate de que la ruta de importación sea correcta
+// <-- Nombre del widget que modificamos
 
 class DetalleCompraProducto extends StatefulWidget {
   final int id;
@@ -26,7 +28,6 @@ class _DetalleCompraProductoState extends State<DetalleCompraProducto> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _cargarDetalleProducto();
     });
-    //_cargarDetalleProducto();
   }
 
   Future<void> _cargarDetalleProducto() async {
@@ -34,17 +35,21 @@ class _DetalleCompraProductoState extends State<DetalleCompraProducto> {
       final productoProvider = Provider.of<ProductoProvider>(context, listen: false);
       print('Buscando producto con ID: ${widget.id}');
       print('Lista filtrada tiene ${productoProvider.productosFiltrados.length} productos');
+      
       // Buscar producto básico de la lista filtrada
+      // NOTA: Es más seguro usar 'firstWhereOrNull' de 'package:collection'
+      // pero 'firstWhere' funciona si estás seguro de que el producto existe en la lista.
       _producto = productoProvider.productosFiltrados
           .firstWhere((prod) => prod.idProducto == widget.id);
+      
       print('Producto encontrado: ${_producto?.nombre}');
+      
       // Obtener detalles adicionales
       _detalleProducto = await productoProvider.detalleP(widget.id);
-      //mostrar detalles en consola
+      
       print('idProducto: ${_detalleProducto?.idProducto}');
       print('idvendedor: ${_detalleProducto?.idVendedor}');
       print('Descripción del producto: ${_detalleProducto?.descripcion}');
-      
       
       setState(() {
         _isLoading = false;
@@ -86,6 +91,7 @@ class _DetalleCompraProductoState extends State<DetalleCompraProducto> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        // ... (Tu AppBar se mantiene igual) ...
         centerTitle: true,
         title: Text(
           'DETALLE DEL PRODUCTO',
@@ -105,15 +111,19 @@ class _DetalleCompraProductoState extends State<DetalleCompraProducto> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // ... (Toda la parte superior de tu pantalla se mantiene igual) ...
+              // Nombre del producto
               Text(
                 _producto!.nombre,
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               const SizedBox(height: 10),
+              // Imagen
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.25,
                 child: Container(
+                  // ... (Estilo de imagen se mantiene igual) ...
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
@@ -137,6 +147,7 @@ class _DetalleCompraProductoState extends State<DetalleCompraProducto> {
                 ),
               ),
               const SizedBox(height: 8),
+              // Botones de tipo y material
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -145,7 +156,7 @@ class _DetalleCompraProductoState extends State<DetalleCompraProducto> {
                     BotonesTipo(
                       material: _producto!.tipo == 1 ? 1 : 0,
                       producto: _producto!.tipo == 2 ? 1 : 0,
-                      onSelect: (tipo) {}, // Solo mostrar, no permitir selección
+                      onSelect: (tipo) {}, // No seleccionable
                     ),
                     const SizedBox(width: 8),
                     BotonesTipoMaterial(
@@ -153,28 +164,34 @@ class _DetalleCompraProductoState extends State<DetalleCompraProducto> {
                       carton: materiales.contains('2') ? 1 : 0,
                       metal: materiales.contains('3') ? 1 : 0,
                       vidrio: materiales.contains('4') ? 1 : 0,
-                      onSelect: (material) {}, // Solo mostrar, no permitir selección
+                      onSelect: (material) {}, // No seleccionable
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 10),
+              // Botón de precio
               Container(
                 alignment: Alignment.centerLeft,
                 child: BotonPrecio(
-                  precio: '\$${_producto!.precio.toInt()}',
+                  precio: 'S/.${_producto!.precio.toInt()}', // <-- Le puse S/.
                 ),
               ),
               const SizedBox(height: 10),
               const Divider(color: Colors.grey, thickness: 1),
+
+              // --- ¡ESTE ES EL CAMBIO! ---
               DetalleYComprarProducto(
                 idProducto: widget.id,
                 descripcion: _detalleProducto!.descripcion,
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Producto comprado')),
-                  );
-                },
+                // Pasamos el ID del vendedor que obtuvimos del API
+                idVendedor: _detalleProducto!.idVendedor,
+                // Tu API de detalle no devuelve el nombre del vendedor,
+                // así que usamos el nombre del producto o un placeholder.
+                // Para el chat, es mejor tener un nombre, aunque sea temporal.
+                // TODO: Idealmente, tu API `ProductoDetalleResponse` debería 
+                // incluir también el `nombre_vendedor`.
+                nombreVendedor: "Vendedor", // <-- O usa _producto!.nombre si prefieres
               ),
             ],
           ),
@@ -183,4 +200,3 @@ class _DetalleCompraProductoState extends State<DetalleCompraProducto> {
     );
   }
 }
-
