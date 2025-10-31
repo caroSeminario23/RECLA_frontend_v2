@@ -106,4 +106,48 @@ class InsigniaProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+
+  // Desbloquear una insignia para un usuario
+  Future<bool> desbloquearInsignia(int idUsuario, int idInsignia) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final exito = await _insigniaService.desbloquearInsignia(idUsuario, idInsignia);
+
+      if (exito) {
+        // Actualizar el estado de la insignia en la lista correspondiente
+        for (var insignia in _insigniasCompra) {
+          if (insignia.idInsignia == idInsignia) {
+            insignia.desbloqueada = true;
+            break;
+          }
+        }
+        for (var insignia in _insigniasVenta) {
+          if (insignia.idInsignia == idInsignia) {
+            insignia.desbloqueada = true;
+            break;
+          }
+        }
+        for (var insignia in _insigniasRecursos) {
+          if (insignia.idInsignia == idInsignia) {
+            insignia.desbloqueada = true;
+            break;
+          }
+        }
+
+        notifyListeners();
+      }
+
+      return exito;
+    } catch (e) {
+      _errorMessage = 'Error al desbloquear la insignia $idInsignia para el usuario $idUsuario';
+      return false;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
 }

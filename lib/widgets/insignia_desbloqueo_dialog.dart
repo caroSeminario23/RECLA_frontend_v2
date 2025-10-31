@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:recla/providers/estatus.dart';
+
 import 'package:recla/utils/ref_imagenes.dart';
+import 'package:recla/providers/insignia.dart';
+import 'package:recla/providers/usuario.dart';
 
 class InsigniaDesbloqueoDialog extends StatelessWidget {
   //final String nombreInsignia;
@@ -64,11 +69,13 @@ class InsigniaDesbloqueoDialog extends StatelessWidget {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            '$comprasRequeridas compras ',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                          Flexible(
+                            child: Text(
+                              '$comprasRequeridas compras ',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                           Image.asset(ptosCompra, width: 30, height: 30),
@@ -82,15 +89,96 @@ class InsigniaDesbloqueoDialog extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           
-          // Mensaje motivacional
-          Text(
-            '¡Lo he logrado!',
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              fontStyle: FontStyle.italic,
+          InkWell(
+            onTap: () async {
+              final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);
+              final insigniaProvider = Provider.of<InsigniaProvider>(context, listen: false);
+              final estatusProvider = Provider.of<EstatusProvider>(context, listen: false);
+
+              final int idUsuario = usuarioProvider.idUsuario ?? 1;
+              
+              try {
+                final resultado = await insigniaProvider.desbloquearInsignia(idUsuario, idInsignia);
+                
+                //print('Resultado del desbloqueo: $resultado'); // DEBUG
+                //print('Tipo de resultado: ${resultado.runtimeType}'); // DEBUG
+
+                // Verifica si el widget sigue montado antes de usar context
+                if (!context.mounted) return;
+
+                if (resultado) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        '¡Insignia desbloqueada correctamente!',
+                        style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                      ),
+                      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+
+                  // Espera a que se muestre el SnackBar
+                  //await Future.delayed(const Duration(seconds: 2));
+                  
+                  if (!context.mounted) return;
+
+                  // Recargar insignias para actualizar la pantalla
+                  //final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);
+                  //final estatusProvider = Provider.of<EstatusProvider>(context, listen: false);
+                  //final idUsuario = usuarioProvider.idUsuario ?? 1;
+                  
+                  // Recarga las insignias del tipo correspondiente (ajusta según sea necesario)
+                  await insigniaProvider.obtenerInsignias(idUsuario, 1); // compras
+                  await insigniaProvider.obtenerInsignias(idUsuario, 2); // ventas
+                  await insigniaProvider.obtenerInsignias(idUsuario, 3); // recursos educativos
+
+                  // Actualiza los puntos del usuario
+                  //await estatusProvider.cargarEstatusPerfil(idUsuario);
+                  await estatusProvider.cargarEstatusContadores(idUsuario);
+
+                  if (!context.mounted) return;
+                  Navigator.of(context).pop();
+
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'No tienes suficientes puntos para desbloquear esta insignia',
+                        style: TextStyle(color: Theme.of(context).colorScheme.error),
+                      ),
+                      backgroundColor: Theme.of(context).colorScheme.onError,
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                }
+                //Navigator.of(context).pop();
+              } catch (e) {
+                if (!context.mounted) return;
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Error: ${e.toString()}',
+                      style: TextStyle(color: Theme.of(context).colorScheme.error),
+                    ),
+                    backgroundColor: Theme.of(context).colorScheme.onError,
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+              }
+            },
+
+            // Mensaje motivacional
+            child: Text(
+              '¡Lo he logrado!',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontStyle: FontStyle.italic,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              textAlign: TextAlign.end,
             ),
-            textAlign: TextAlign.end,
-            selectionColor: Theme.of(context).colorScheme.primary,
-          ),
+          )
         ],
       ),
     );

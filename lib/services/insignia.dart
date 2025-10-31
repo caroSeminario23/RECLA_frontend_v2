@@ -61,4 +61,27 @@ class InsigniaService {
       throw Exception('Error al obtener insignias: ${response.statusCode} - $message');
     }
   }
+
+
+  // DESBLOQUEAR INSIGNIA
+  Future<bool> desbloquearInsignia(int idUsuario, int idInsignia) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/desbloquear_insignia'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'id_insignia': idInsignia, 'id_usuario': idUsuario}),
+    );
+
+    if (response.statusCode == 201) {
+      return true;
+    } else {
+      String message;
+      try {
+        final Map<String, dynamic> err = jsonDecode(response.body);
+        message = err['message'] ?? response.body;
+      } catch (_) {
+        message = response.body;
+      }
+      throw Exception('Error al desbloquear insignia: ${response.statusCode} - $message');
+    }
+  }
 }

@@ -49,14 +49,14 @@ class _InsigniasPaginaState extends State<InsigniasPagina> {
   Future<void> _cargarInsignias() async {
     final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);
     final insigniaProvider = Provider.of<InsigniaProvider>(context, listen: false);
-    final estatusProvider = Provider.of<EstatusProvider>(context, listen: false);
+    //final estatusProvider = Provider.of<EstatusProvider>(context, listen: false);
 
     final int idUsuario = usuarioProvider.idUsuario ?? 1;
 
     setState(() {
-      puntosCompra = estatusProvider.ptosCompras ?? 0;
-      puntosVenta = estatusProvider.ptosVentas ?? 0;
-      puntosRecEducativos = estatusProvider.ptosRecEducativos ?? 0;
+      //puntosCompra = estatusProvider.ptosCompras ?? 0;
+      //puntosVenta = estatusProvider.ptosVentas ?? 0;
+      //puntosRecEducativos = estatusProvider.ptosRecEducativos ?? 0;
     });
 
     await insigniaProvider.obtenerInsignias(idUsuario, 1); //compras
@@ -114,13 +114,17 @@ class _InsigniasPaginaState extends State<InsigniasPagina> {
               const SizedBox(height: 1),
 
               // SECCIÓN 1
-              Consumer<InsigniaProvider>(
-                builder: (context, insigniaProvider, child) {
-                  return ColeccionInsignias(
-                    nombreColeccion: "Comprador consciente",
-                    insignias: insigniaProvider.insigniasCompra,
-                    tipoContador: 1,
-                    valorContador: puntosCompra,
+              Consumer<EstatusProvider>(
+                builder: (context, estatusProvider, child) {
+                  return Consumer<InsigniaProvider>(
+                    builder: (context, insigniaProvider, child) {
+                      return ColeccionInsignias(
+                        nombreColeccion: "Comprador consciente",
+                        insignias: insigniaProvider.insigniasCompra,
+                        tipoContador: 1,
+                        valorContador: estatusProvider.ptosCompras ?? 0,
+                      );
+                    },
                   );
                 },
               ),
@@ -138,13 +142,17 @@ class _InsigniasPaginaState extends State<InsigniasPagina> {
               const SizedBox(height: 1),
 
               // SECCIÓN 2
-              Consumer<InsigniaProvider>(
-                builder: (context, insigniaProvider, child) {
-                  return ColeccionInsignias(
-                    nombreColeccion: "Vendedor consciente",
-                    insignias: insigniaProvider.insigniasVenta,
-                    tipoContador: 2,
-                    valorContador: puntosVenta,
+              Consumer<EstatusProvider>(
+                builder: (context, estatusProvider, child) {
+                  return Consumer<InsigniaProvider>(
+                    builder: (context, insigniaProvider, child) {
+                      return ColeccionInsignias(
+                        nombreColeccion: "Vendedor consciente",
+                        insignias: insigniaProvider.insigniasVenta,
+                        tipoContador: 2,
+                        valorContador: estatusProvider.ptosVentas ?? 0,
+                      );
+                    },
                   );
                 },
               ),
@@ -162,15 +170,19 @@ class _InsigniasPaginaState extends State<InsigniasPagina> {
               const SizedBox(height: 1),
 
               // SECCIÓN 3
-              Consumer<InsigniaProvider>(
-                builder: (context, insigniaProvider, child) {
-                  return ColeccionInsignias(
-                    nombreColeccion: "Ecoaprendiz informado",
-                    insignias: insigniaProvider.insigniasRecursos,
-                    tipoContador: 3,
-                    valorContador: puntosRecEducativos,
-                  );
-                },
+              Consumer<EstatusProvider>(
+                builder: (context, estatusProvider, child) {
+                return Consumer<InsigniaProvider>(
+                  builder: (context, insigniaProvider, child) {
+                    return ColeccionInsignias(
+                      nombreColeccion: "Ecoaprendiz informado",
+                      insignias: insigniaProvider.insigniasRecursos,
+                      tipoContador: 3,
+                      valorContador: estatusProvider.ptosRecEducativos ?? 0,
+                    );
+                  },
+                );
+              },
               ),
             ],
           ),
