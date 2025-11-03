@@ -4,7 +4,10 @@ class CertificadoConEstado {
   final String urlImagen;
   final int nivel;
   final bool desbloqueado;
-  final bool revisado;
+  bool revisado;
+  final String nombreInsignia1;
+  final String nombreInsignia2;
+  final String nombreInsignia3;
 
   CertificadoConEstado({
     required this.idCertificado,
@@ -13,6 +16,9 @@ class CertificadoConEstado {
     required this.nivel,
     required this.desbloqueado,
     required this.revisado,
+    required this.nombreInsignia1,
+    required this.nombreInsignia2,
+    required this.nombreInsignia3,
   });
 
   factory CertificadoConEstado.fromJson(Map<String, dynamic> json) {
@@ -23,6 +29,9 @@ class CertificadoConEstado {
       nivel: json['nivel'] as int,
       desbloqueado: json['desbloqueado'] as bool,
       revisado: json['revisado'] as bool,
+      nombreInsignia1: json['nombre_insignia_1'] as String,
+      nombreInsignia2: json['nombre_insignia_2'] as String,
+      nombreInsignia3: json['nombre_insignia_3'] as String
     );
   }
 }

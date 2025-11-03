@@ -60,4 +60,35 @@ class CertificadoProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+
+  // Desbloquear un certificado para un usuario (marcar como revisado)
+  Future<bool> desbloquearCertificado(int idUsuario, int idCertificado) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final exito = await _certificadoService.desbloquearCertificado(idUsuario, idCertificado);
+
+      if (exito) {
+        // Actualizar el estado del certificado
+        for (var certificado in _certificadosConEstado) {
+          if (certificado.idCertificado == idCertificado) {
+            certificado.revisado = true;
+            break;
+          }
+        }
+        notifyListeners();
+      }
+
+      return exito;
+    } catch (e) {
+      _errorMessage = 'Error al desbloquear el certificado $idCertificado para el usuario $idUsuario';
+      return false;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
 }

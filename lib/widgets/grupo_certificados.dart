@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recla/models/certificado.dart';
+import 'package:recla/widgets/certificado_desbloqueo_dialog.dart';
 
 class GrupoCertificados extends StatelessWidget {
   final List<CertificadoConEstado> certificados;
@@ -41,30 +42,64 @@ class GrupoCertificados extends StatelessWidget {
   }
 
   Widget _buildCertificado(CertificadoConEstado cert, BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Image.network(
-          cert.urlImagen,
-          height: 120,
-          fit: BoxFit.contain,
-          // Mostrar estado deshabilitado si no está obtenido
-          color: cert.desbloqueado ? null : Colors.grey,
-          colorBlendMode: cert.desbloqueado ? BlendMode.srcIn : BlendMode.saturation,
-        ),
-        const SizedBox(height: 4),
-        Text(
-          cert.nombre,
-          style: Theme.of(context).textTheme.labelMedium,
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 2),
-        /*Text(
-          'Nivel ${cert.nivel}',
-          style: Theme.of(context).textTheme.labelSmall?.copyWith(color: Colors.grey),
-          textAlign: TextAlign.center,
-        ),*/
-      ],
+    return GestureDetector(
+      onTap: () {
+          if (!cert.revisado && !cert.desbloqueado) {
+            showDialog(
+              context: context, 
+              builder: (context) => CertificadoDesbloqueoDialog(
+                idCertificado: cert.idCertificado,
+                urlImagen: cert.urlImagen,
+                nombreInsignia1: cert.nombreInsignia1,
+                nombreInsignia2: cert.nombreInsignia2,
+                nombreInsignia3: cert.nombreInsignia3,
+                desbloqueado: false,
+            ),
+          );
+          } else if (cert.desbloqueado && !cert.revisado) {
+            showDialog(
+              context: context, 
+              builder: (context) => CertificadoDesbloqueoDialog(
+                idCertificado: cert.idCertificado,
+                urlImagen: cert.urlImagen,
+                nombreInsignia1: cert.nombreInsignia1,
+                nombreInsignia2: cert.nombreInsignia2,
+                nombreInsignia3: cert.nombreInsignia3,
+                desbloqueado: true,
+              ),
+            );
+          }
+      },
+
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.network(
+            cert.urlImagen,
+            height: 120,
+            fit: BoxFit.contain,
+            // Mostrar estado deshabilitado si no está obtenido
+            color: cert.desbloqueado ? null : Colors.grey,
+            //color: cert.desbloqueado ? (cert.revisado ? null : Colors.amber) : Colors.grey,
+            colorBlendMode: cert.desbloqueado ? BlendMode.srcIn : BlendMode.saturation,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            cert.nombre,
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+              color: !cert.revisado && cert.desbloqueado ? Theme.of(context).colorScheme.primary : null,
+              fontWeight: !cert.revisado && cert.desbloqueado ? FontWeight.bold : null,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 2),
+          /*Text(
+            'Nivel ${cert.nivel}',
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(color: Colors.grey),
+            textAlign: TextAlign.center,
+          ),*/
+        ],
+      ),
     );
   }
 }

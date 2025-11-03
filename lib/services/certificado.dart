@@ -59,4 +59,27 @@ class CertificadoService {
       throw Exception('Error al obtener certificados: ${response.statusCode} - $message');
     }
   }
+
+
+  // DESBLOQUEAR CERTIFICADO
+  Future<bool> desbloquearCertificado(int idUsuario, int idCertificado) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/marcar_certificado_revisado'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'id_certificado': idCertificado, 'id_usuario': idUsuario}),
+    );
+
+    if (response.statusCode == 201) {
+      return true;
+    } else {
+      String message;
+      try {
+        final Map<String, dynamic> err = jsonDecode(response.body);
+        message = err['message'] ?? response.body;
+      } catch (_) {
+        message = response.body;
+      }
+      throw Exception('Error al desbloquear certificado: ${response.statusCode} - $message');
+    }
+  }
 }
