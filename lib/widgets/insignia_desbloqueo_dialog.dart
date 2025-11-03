@@ -159,7 +159,7 @@ class InsigniaDesbloqueoDialog extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      'Error: ${e.toString()}',
+                      'Ocurrió un error al intentar desbloquear la insignia',
                       style: TextStyle(color: Theme.of(context).colorScheme.error),
                     ),
                     backgroundColor: Theme.of(context).colorScheme.onError,

@@ -32,4 +32,26 @@ class StickerService {
       throw Exception('Error al obtener stickers: ${response.statusCode} - $message');
     }
   }
+
+  // DESBLOQUEAR STICKER
+  Future<bool> desbloquearSticker(int idUsuario, int idSticker) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/desbloquear_sticker'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'id_usuario': idUsuario, 'id_sticker': idSticker}),
+    );
+
+    if (response.statusCode == 201) {
+      return true;
+    } else {
+      String message;
+      try {
+        final Map<String, dynamic> err = jsonDecode(response.body);
+        message = err['message'] ?? response.body;
+      } catch (_) {
+        message = response.body;
+      }
+      throw Exception('Error al desbloquear sticker: ${response.statusCode} - $message');
+    }
+  }
 }

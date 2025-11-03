@@ -52,4 +52,46 @@ class StickerProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+
+  // Desbloquear un sticker
+  Future<bool> desbloquearSticker(int idUsuario, int idSticker) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final exito = await _stickerService.desbloquearSticker(idUsuario, idSticker);
+
+      if (exito) {
+        for (var sticker in _stickerEmociones) {
+          if (sticker.idSticker == idSticker) {
+            sticker.desbloqueado = true;
+            break;
+          }
+        }
+        for (var sticker in _stickerReacciones) {
+          if (sticker.idSticker == idSticker) {
+            sticker.desbloqueado = true;
+            break;
+          }
+        }
+        for (var sticker in _stickerActividades) {
+          if (sticker.idSticker == idSticker) {
+            sticker.desbloqueado = true;
+            break;
+          }
+        }
+
+        notifyListeners();
+      }
+      return exito;
+    } catch (e) {
+      _errorMessage = 'Error al desbloquear la insignia $idSticker para el usuario $idUsuario';
+      return false;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
 }

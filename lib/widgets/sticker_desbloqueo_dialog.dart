@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:recla/utils/ref_imagenes.dart';
+import 'package:recla/providers/usuario.dart';
+import 'package:recla/providers/stickers.dart';
 
 class StickerDesbloqueoDialog extends StatelessWidget {
   //final String nombreInsignia;
@@ -42,7 +46,7 @@ class StickerDesbloqueoDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircleAvatar(
-                radius: 50,
+                radius: 40,
                 backgroundImage: NetworkImage(urlImagen),
               ),
               const SizedBox(width: 20),
@@ -82,15 +86,78 @@ class StickerDesbloqueoDialog extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           
-          // Mensaje motivacional
-          Text(
-            '¡Lo he logrado!',
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              fontStyle: FontStyle.italic,
+
+          InkWell(
+            onTap: () async {
+              final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);
+              final stickerProvider = Provider.of<StickerProvider>(context, listen: false);
+
+              final int idUsuario = usuarioProvider.idUsuario ?? 1;
+
+              try {
+                final resultado = await stickerProvider.desbloquearSticker(idUsuario, idSticker);
+
+                if (!context.mounted) return;
+
+                if (resultado) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        '¡Has desbloqueado un nuevo sticker!',
+                        style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                      ),
+                      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+
+                  if (!context.mounted) return;
+
+                  await stickerProvider.obtenerStickers(idUsuario, 1); //emociones
+                  await stickerProvider.obtenerStickers(idUsuario, 2); //reacciones
+                  await stickerProvider.obtenerStickers(idUsuario, 3); //actividades
+
+                  if (!context.mounted) return;
+                  Navigator.of(context).pop(); // Cerrar el diálogo
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'No has alcanzado las monedas necesarias para este sticker',
+                        style: TextStyle(color: Theme.of(context).colorScheme.error),
+                      ),
+                      backgroundColor: Theme.of(context).colorScheme.onError,
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                }
+              } catch (e) {
+                // Manejo de errores
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Ocurrió un error al intentar desbloquear el sticker',
+                      style: TextStyle(color: Theme.of(context).colorScheme.error),
+                    ),
+                    backgroundColor: Theme.of(context).colorScheme.onError,
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              }
+            },
+
+            // Mensaje motivacional
+            child: Text(
+              '¡Lo he logrado!',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontStyle: FontStyle.italic,
+              ),
+              textAlign: TextAlign.end,
+              selectionColor: Theme.of(context).colorScheme.primary,
             ),
-            textAlign: TextAlign.end,
-            selectionColor: Theme.of(context).colorScheme.primary,
-          ),
+
+          )
+          
         ],
       ),
     );
