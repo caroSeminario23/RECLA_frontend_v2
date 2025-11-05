@@ -47,11 +47,7 @@ class ChatProvider extends ChangeNotifier {
 
   // --- ENVIAR MENSAJE ---
   Future<bool> enviarMensaje(int idUsuarioEnvia, int idUsuarioRecibe, String mensaje) async {
-    // No usamos _isLoading aquí para no bloquear toda la UI,
-    // podrías tener un _isSending si quisieras.
     _errorMessage = null;
-    // No notificamos aquí para no recargar la UI solo por "enviar"
-
     final request = ChatEnviarRequest(
       idUsuario1: idUsuarioEnvia,
       idUsuario2: idUsuarioRecibe,
@@ -73,7 +69,5 @@ class ChatProvider extends ChangeNotifier {
       notifyListeners(); // Notifica solo si hay error
       return false;
     }
-    // No hay finally con loading/notify,
-    // porque getHistorial ya se encarga de eso.
   }
 }

@@ -6,8 +6,7 @@ import 'package:recla/widgets/boton_precio.dart';
 import 'package:recla/widgets/botones_tipo.dart';
 import 'package:recla/widgets/botones_tipo_material.dart';
 import 'package:recla/widgets/componente_detalles_y_comprar.dart';
-// Asegúrate de que la ruta de importación sea correcta
-// <-- Nombre del widget que modificamos
+
 
 class DetalleCompraProducto extends StatefulWidget {
   final int id;
@@ -36,9 +35,6 @@ class _DetalleCompraProductoState extends State<DetalleCompraProducto> {
       print('Buscando producto con ID: ${widget.id}');
       print('Lista filtrada tiene ${productoProvider.productosFiltrados.length} productos');
       
-      // Buscar producto básico de la lista filtrada
-      // NOTA: Es más seguro usar 'firstWhereOrNull' de 'package:collection'
-      // pero 'firstWhere' funciona si estás seguro de que el producto existe en la lista.
       _producto = productoProvider.productosFiltrados
           .firstWhere((prod) => prod.idProducto == widget.id);
       

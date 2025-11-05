@@ -1,4 +1,3 @@
-// lib/models/chat.dart
 
 // 1. Request para obtener el historial
 class ChatHistorialRequest {
@@ -19,7 +18,6 @@ class ChatHistorialRequest {
 }
 
 // 2. Response de CADA mensaje en el historial
-// Esto es el equivalente a tu ProductoFiltradoResponse
 class ChatMensajeResponse {
   int usuarioId;
   String mensaje;
@@ -58,5 +56,34 @@ class ChatEnviarRequest {
       'id_usuario_2': idUsuario2,
       'mensaje': mensaje,
     };
+  }
+}
+
+
+// 4. Response para CADA fila de la lista de chats
+class ConversacionResumenResponse {
+  final int idUsuarioReceptor;
+  final String nombreReceptor;
+  final String ultimoMensaje;
+  final DateTime fechaUltimoMensaje;
+  final String? avatarUrl;
+  // final int mensajesNoLeidos; // Opcional, para un futuro
+
+  ConversacionResumenResponse({
+    required this.idUsuarioReceptor,
+    required this.nombreReceptor,
+    required this.ultimoMensaje,
+    required this.fechaUltimoMensaje,
+    this.avatarUrl,
+  });
+
+  factory ConversacionResumenResponse.fromJson(Map<String, dynamic> json) {
+    return ConversacionResumenResponse(
+      idUsuarioReceptor: json['id_usuario_receptor'] as int,
+      nombreReceptor: json['nombre_receptor'] as String,
+      ultimoMensaje: json['ultimo_mensaje'] as String,
+      fechaUltimoMensaje: DateTime.parse(json['fecha_ultimo_mensaje'] as String),
+      avatarUrl: json['avatar_url'] as String?,
+    );
   }
 }

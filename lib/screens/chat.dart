@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recla/providers/chat.dart';
+import 'package:recla/providers/conversaciones.dart';
+import 'package:recla/screens/conversacion_chat.dart';
 import 'package:recla/widgets/boton_comprado.dart';
 import 'package:recla/widgets/burbuja_mensaje.dart';
 import 'package:recla/widgets/campo_entrada.dart';
@@ -116,10 +118,6 @@ class _ChatScreenState extends State<Chat> {
     }
   }
   void _scrollToBottom() {
-    // REEMPLAZA TU FUNCIÓN CON ESTA:
-    
-    // Esto le dice a Flutter: "Espera a que termines de dibujar
-    // la pantalla (el nuevo mensaje), y LUEGO ejecuta este código."
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
@@ -158,9 +156,22 @@ class _ChatScreenState extends State<Chat> {
           const SizedBox(height: 16), // Espaciado
           BotonComprado(
             onPressed: () {
-              print('Venta concretada');
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ConversacionesScreen(
+                    idUsuarioActual: widget.idUsuarioActual, // Pasar el ID del usuario actual
+                  ),
+                ),
+              );
             },
           ),
+          /*
+          BotonComprado(
+            onPressed: () {
+              print('Venta concretada');
+            },
+          ),*/
           const SizedBox(height: 16), // Espaciado entre el botón y los mensajes
 
           // Lista de mensajes

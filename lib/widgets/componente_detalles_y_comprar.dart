@@ -30,7 +30,7 @@ class DetalleYComprarProducto extends StatelessWidget {
     // Por ejemplo, desde un AuthProvider:
     // final idUsuarioActual = Provider.of<AuthProvider>(context).usuario.id;
     // Por ahora, lo dejaré hardcodeado como '2'
-    const int idUsuarioActual = 6;
+    const int idUsuarioActual = 1;
 
 
     return Padding(

@@ -11,11 +11,6 @@ import 'package:recla/widgets/navbar.dart';
 import 'package:recla/screens/registro_producto.dart';
 import 'package:recla/screens/chat.dart';
 
-// --- AÑADE LA IMPORTACIÓN DE TU PANTALLA DE DETALLE ---
-// (Asumo que tienes una pantalla de detalle, ej: 'detalle_producto_screen.dart')
-// import 'package:recla/screens/detalle_producto_screen.dart';
-
-
 class CompraProductos extends StatefulWidget {
   const CompraProductos({super.key});
 
@@ -26,8 +21,6 @@ class CompraProductos extends StatefulWidget {
 class _CompraProductosState extends State<CompraProductos> {
   List<int> _tipoSeleccionado = [];
   List<int> _materialesSeleccionados = [];
-  // --- USA EL ESTADO DEL PROVIDER EN LUGAR DE UN ESTADO LOCAL ---
-  // List<ProductoFiltradoResponse> _productos = []; // <-- REEMPLAZADO
 
   // --- OBTENER EL ID ACTUAL (Debería venir de un AuthProvider) ---
   final int _idUsuarioActual = 2;
@@ -71,9 +64,6 @@ class _CompraProductosState extends State<CompraProductos> {
       listen: false,
     ).filtrarP(_tipoSeleccionado, materialString);
     
-    // setState(() {
-    //   _productos = productos; // <-- YA NO ES NECESARIO
-    // });
   }
 
   @override

@@ -8,6 +8,7 @@ import 'package:recla/config/theme.dart';
 import 'package:recla/screens/bienvenida.dart';
 import 'package:recla/screens/compra_producto.dart';
 import 'package:recla/providers/chat.dart';
+import 'package:recla/providers/conversaciones.dart';
 
 
 void main() {
@@ -17,6 +18,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => UsuarioProvider()),
         ChangeNotifierProvider(create: (_) => ProductoProvider()),
         ChangeNotifierProvider(create: (_) => ChatProvider()),
+        ChangeNotifierProvider(create: (_) => ConversacionesProvider()),
       ],
       child: const MyApp(),
     ),
