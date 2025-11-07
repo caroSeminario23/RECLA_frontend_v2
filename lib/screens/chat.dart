@@ -197,9 +197,7 @@ class _ChatScreenState extends State<Chat> {
                       hora: _formatTime(mensaje.fechaHora),
                       idUsuario: mensaje.usuarioId,
                       idUsuarioActual: widget.idUsuarioActual,
-                      avatarUrl: mensaje.usuarioId == widget.idUsuarioActual
-                          ? null
-                          : 'https://ui-avatars.com/api/?name=${widget.nombreUsuario.split(' ').first}&background=C8E6C9&color=2E7D32',
+                      avatarUrl: 'https://lyhgavhtpjtnozoabwqk.supabase.co/storage/v1/object/public/recla-images/perfil_aprendices/perfil_predeterminado.webp',
                     );
                   }
 

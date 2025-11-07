@@ -108,7 +108,7 @@ class _ConversacionesScreenState extends State<ConversacionesScreen> {
                 final convo = provider.conversaciones[index];
                 
                 // Genera un avatar de reserva si no hay URL
-                final avatarDeReserva = 'https://ui-avatars.com/api/?name=${convo.nombreReceptor.split(' ').first}&background=C8E6C9&color=2E7D32';
+                final avatarDeReserva = 'https://lyhgavhtpjtnozoabwqk.supabase.co/storage/v1/object/public/recla-images/perfil_aprendices/perfil_predeterminado.webp ';
 
                 return ConversacionTile(
                   nombre: convo.nombreReceptor,
