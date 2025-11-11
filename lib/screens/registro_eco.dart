@@ -4,6 +4,7 @@ import 'package:recla/providers/usuario.dart';
 import 'package:recla/screens/login.dart';
 import 'package:recla/widgets/encabezado.dart';
 import 'package:intl/intl.dart';
+import 'package:recla/widgets/video_youtube.dart';
 
 class RegistroEco extends StatefulWidget {
   const RegistroEco({super.key});
@@ -46,11 +47,20 @@ class _RegistroEcoState extends State<RegistroEco> {
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Registro exitoso. Ahora puedes iniciar sesión.'),
+            content: const Text('Registro exitoso. Bienvenido a la comunidad RECLA.'),
             backgroundColor: Theme.of(context).colorScheme.primaryContainer,
           ),
         );
-        Navigator.of(context).pop();
+        
+        // Navigator.of(context).pop(); VERSION ANTERIOR
+        // Navegar al video de YouTube
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (_) => const VideoYoutubeBienvenida(
+              videoId: 'ai0Ig4OCy8Q', // ID de video
+            ),
+          ),
+        );
       } else if (usuarioProvider.errorMessage != null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
