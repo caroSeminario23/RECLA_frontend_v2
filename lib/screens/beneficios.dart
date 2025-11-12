@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recla/screens/certificados.dart';
+import 'package:recla/screens/chats.dart';
 
 import 'package:recla/screens/compra_productos.dart';
 import 'package:recla/screens/insignias.dart';
@@ -32,13 +33,14 @@ class _BeneficiosPaginaState extends State<BeneficiosPagina> {
       ).push(MaterialPageRoute(builder: (_) => const PerfilEcoPagina()));
     } else if (index == 2) {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => const TablaClasificacionPagina()),
-      );
+        MaterialPageRoute(builder: (_) => const TablaClasificacionPagina()));
     } else if (index == 0) {
-      Navigator.of(
-        context,
-      ).push(MaterialPageRoute(builder: (_) => const CompraProductosPagina()));
-    } 
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const CompraProductosPagina()));
+    } else if (index == 3) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const ChatsPagina()));
+    }
   }
 
   @override

@@ -28,13 +28,14 @@ class UsuarioService {
       String message;
       try {
         final Map<String, dynamic> err = jsonDecode(response.body);
-        message = err['message'] ?? response.body;
+        message = err['message'] ?? 'Error desconocido';
       } catch (_) {
         message = response.body;
       }
-      throw Exception('Error al iniciar sesión: ${response.statusCode} - $message');
+      throw Exception('Error al iniciar sesión: $message');
     }
   }
+
 
   // REGISTRO
   Future<bool> registroEcoaprendiz(UsuarioRegistro request) async {

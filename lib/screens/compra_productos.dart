@@ -5,6 +5,7 @@ import 'dart:developer' as developer;
 import 'package:recla/models/producto.dart';
 import 'package:recla/providers/producto.dart';
 import 'package:recla/screens/beneficios.dart';
+import 'package:recla/screens/chats.dart';
 import 'package:recla/screens/login.dart';
 import 'package:recla/screens/perfil_eco.dart';
 import 'package:recla/screens/tabla_clasificacion.dart';
@@ -40,12 +41,13 @@ class _CompraProductosState extends State<CompraProductosPagina> {
       ).push(MaterialPageRoute(builder: (_) => const PerfilEcoPagina()));
     } else if (index == 2) {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => const TablaClasificacionPagina()),
-      );
+        MaterialPageRoute(builder: (_) => const TablaClasificacionPagina()));
     } else if (index == 1) {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => const BeneficiosPagina()),
-      );
+        MaterialPageRoute(builder: (_) => const BeneficiosPagina()));
+    } else if (index == 3) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const ChatsPagina()));
     }
   }
   
@@ -159,7 +161,7 @@ class _CompraProductosState extends State<CompraProductosPagina> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
-                    onPressed: _buscarProductos, 
+                    onPressed: _buscarProductos,
                     icon: const Icon(Icons.search),
                     label: const Text("Buscar"),
                     style: ElevatedButton.styleFrom(

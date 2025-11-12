@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:recla/providers/producto.dart';
 import 'package:recla/providers/usuario.dart';
 import 'package:recla/screens/beneficios.dart';
+import 'package:recla/screens/chats.dart';
 import 'package:recla/screens/compra_productos.dart';
 import 'package:recla/screens/perfil_eco.dart';
 import 'package:recla/screens/tabla_clasificacion.dart';
@@ -18,7 +19,7 @@ class ProductosPersonaPagina extends StatefulWidget {
 }
 
 class _ProductosPersonaState extends State<ProductosPersonaPagina> {
-  int opcionSeleccionada = 4; // Compra es la opción 4
+  int opcionSeleccionada = 4; // Perfil es la opción 4
 
   void _onItemTapped(int index) {
     setState(() {
@@ -39,6 +40,9 @@ class _ProductosPersonaState extends State<ProductosPersonaPagina> {
     } else if (index == 0) {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => const CompraProductosPagina()));
+    } else if (index == 3) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const ChatsPagina()));
     }
   }
 

@@ -4,12 +4,13 @@ import 'package:provider/provider.dart';
 import 'package:recla/models/producto.dart';
 import 'package:recla/providers/producto.dart';
 import 'package:recla/screens/beneficios.dart';
+import 'package:recla/screens/chats.dart';
 import 'package:recla/screens/perfil_eco.dart';
 import 'package:recla/screens/tabla_clasificacion.dart';
 import 'package:recla/widgets/boton_precio.dart';
 import 'package:recla/widgets/botones_tipo.dart';
 import 'package:recla/widgets/botones_tipo_material.dart';
-import 'package:recla/widgets/componente_detalles_y_comprar.dart';
+import 'package:recla/widgets/detalles_y_comprar.dart';
 import 'package:recla/widgets/navbar.dart';
 
 class DetalleCompraProducto extends StatefulWidget {
@@ -22,7 +23,7 @@ class DetalleCompraProducto extends StatefulWidget {
 }
 
 class _DetalleCompraProductoState extends State<DetalleCompraProducto> {
-  int opcionSeleccionada = 0; // Beneficios es la opción 0
+  int opcionSeleccionada = 0; // Compra es la opción 0
 
   ProductoDetalleResponse? _detalleProducto;
   ProductoFiltradoResponse? _producto;
@@ -48,6 +49,9 @@ class _DetalleCompraProductoState extends State<DetalleCompraProducto> {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => const BeneficiosPagina()),
       );
+    } else if (index == 3) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const ChatsPagina()));
     }
   }
 
@@ -205,16 +209,22 @@ class _DetalleCompraProductoState extends State<DetalleCompraProducto> {
                   precio: '\$${_producto!.precio.toInt()}',
                 ),
               ),
+
               const SizedBox(height: 10),
               const Divider(color: Colors.grey, thickness: 1),
+
               DetalleYComprarProducto(
                 idProducto: widget.id,
                 descripcion: _detalleProducto!.descripcion,
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Producto comprado')),
-                  );
-                },
+
+                idVendedor: _detalleProducto!.idVendedor,
+                nombreVendedor: "Vendedor",
+
+                //onPressed: () {
+                //  ScaffoldMessenger.of(context).showSnackBar(
+                //    const SnackBar(content: Text('Producto comprado')),
+                //  );
+                //},
               ),
             ],
           ),

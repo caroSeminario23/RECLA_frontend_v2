@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:recla/providers/producto.dart';
 import 'package:recla/providers/usuario.dart';
 import 'package:recla/screens/beneficios.dart';
+import 'package:recla/screens/chats.dart';
 import 'package:recla/screens/compra_productos.dart';
 import 'package:recla/screens/perfil_eco.dart';
 import 'package:recla/screens/tabla_clasificacion.dart';
@@ -55,6 +56,9 @@ class _RegistroProductoState extends State<RegistroProducto> {
     } else if (index == 1) {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => const BeneficiosPagina()));
+    } else if (index == 3) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const ChatsPagina()));
     }
   }
   

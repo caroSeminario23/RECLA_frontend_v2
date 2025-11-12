@@ -33,7 +33,15 @@ class UsuarioProvider extends ChangeNotifier {
       _errorMessage = null;
       return true;
     } catch (e) {
-      _errorMessage = 'Error al iniciar sesión';
+      // Extraer el mensaje del error
+      String errorMsg = e.toString();
+      
+      // Si es una excepción con formato "Exception: Error al iniciar sesión: 401 - {...}"
+      if (errorMsg.contains('Exception:')) {
+        errorMsg = errorMsg.replaceFirst('Exception: ', '');
+      }
+      
+      _errorMessage = errorMsg;
       return false;
     } finally {
       _isLoading = false;

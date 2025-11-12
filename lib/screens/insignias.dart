@@ -5,6 +5,7 @@ import 'package:recla/providers/estatus.dart';
 import 'package:recla/providers/insignia.dart';
 import 'package:recla/providers/usuario.dart';
 import 'package:recla/screens/beneficios.dart';
+import 'package:recla/screens/chats.dart';
 import 'package:recla/screens/compra_productos.dart';
 import 'package:recla/screens/perfil_eco.dart';
 import 'package:recla/screens/tabla_clasificacion.dart';
@@ -20,6 +21,7 @@ class InsigniasPagina extends StatefulWidget {
 
 class _InsigniasPaginaState extends State<InsigniasPagina> {
   int opcionSeleccionada = 1;
+
   int puntosCompra = 0;
   int puntosVenta = 0;
   int puntosRecEducativos = 0;
@@ -36,11 +38,13 @@ class _InsigniasPaginaState extends State<InsigniasPagina> {
       ).push(MaterialPageRoute(builder: (_) => const PerfilEcoPagina()));
     } else if (index == 2) {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => const TablaClasificacionPagina()),
-      );
+        MaterialPageRoute(builder: (_) => const TablaClasificacionPagina()));
     } else if (index == 0) {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => const CompraProductosPagina()));
+    } else if (index == 3) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const ChatsPagina()));
     }
   }
 

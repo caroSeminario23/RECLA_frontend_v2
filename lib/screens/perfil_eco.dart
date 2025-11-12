@@ -5,6 +5,7 @@ import 'package:recla/providers/estatus.dart';
 import 'package:recla/providers/usuario.dart';
 import 'package:recla/screens/beneficios.dart';
 import 'package:recla/screens/certificados_persona.dart';
+import 'package:recla/screens/chats.dart';
 import 'package:recla/screens/compra_productos.dart';
 import 'package:recla/screens/insignias_persona.dart';
 import 'package:recla/screens/login.dart';
@@ -43,6 +44,9 @@ class _PerfilEcoPaginaState extends State<PerfilEcoPagina> {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => const CompraProductosPagina()),
       );
+    } else if (index == 3) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const ChatsPagina()));
     }
   }
 

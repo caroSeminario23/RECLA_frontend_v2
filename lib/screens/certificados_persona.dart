@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:recla/providers/usuario.dart';
 import 'package:recla/providers/certificado.dart';
 import 'package:recla/screens/beneficios.dart';
+import 'package:recla/screens/chats.dart';
 import 'package:recla/screens/compra_productos.dart';
 import 'package:recla/screens/perfil_eco.dart';
 import 'package:recla/screens/tabla_clasificacion.dart';
@@ -28,16 +29,16 @@ class _CertificadosPersonaPaginaState extends State<CertificadosPersonaPagina> {
     // NAVEGACIÓN BASADA EN LA OPCIÓN SELECCIONADA
     if (index == 2) {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => const TablaClasificacionPagina()),
-      );
+        MaterialPageRoute(builder: (_) => const TablaClasificacionPagina()));
     } else if (index == 0) {
-      Navigator.of(
-        context,
-      ).push(MaterialPageRoute(builder: (_) => const CompraProductosPagina()));
+      Navigator.of(context)
+      .push(MaterialPageRoute(builder: (_) => const CompraProductosPagina()));
     } else if (index == 1) {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => const BeneficiosPagina()),
-      );
+        MaterialPageRoute(builder: (_) => const BeneficiosPagina()));
+    } else if (index == 3) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const ChatsPagina()));
     }
   }
 

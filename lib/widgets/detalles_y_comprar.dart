@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:recla/screens/chat_individual.dart';
 
 class DetalleYComprarProducto extends StatelessWidget {
   final int idProducto; // ID del producto
   final String descripcion;
-  final VoidCallback onPressed;
+  final int idVendedor;
+  final String nombreVendedor;
+  //final VoidCallback onPressed;
 
   const DetalleYComprarProducto({
     super.key,
     required this.idProducto,
-    required this.onPressed,
+    //required this.onPressed,
     required this.descripcion,
+    required this.idVendedor,      // <-- AÑADIDO
+    required this.nombreVendedor,  // <-- AÑADIDO
   });
 
   @override
   Widget build(BuildContext context) {
+
+    const int idUsuarioActual = 1;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0), // Margen horizontal
@@ -39,7 +46,18 @@ class DetalleYComprarProducto extends StatelessWidget {
           SizedBox(
             width: MediaQuery.of(context).size.width, // Ocupa todo el ancho de la pantalla
             child: ElevatedButton.icon(
-              onPressed: onPressed,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ChatIndividualPagina(
+                      idUsuarioActual: idUsuarioActual, // El comprador (tú)
+                      idUsuarioReceptor: idVendedor,    // El vendedor (del producto)
+                      nombreUsuario: nombreVendedor, // El nombre del vendedor
+                    ),
+                  ),
+                );
+              },
               icon: Icon(
                 Icons.shopping_bag_outlined,
                 size: MediaQuery.of(context).size.width * 0.06, // Tamaño del ícono proporcional

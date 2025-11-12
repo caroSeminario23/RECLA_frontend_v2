@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:recla/providers/chats.dart';
 
 import 'package:recla/providers/estatus.dart';
 import 'package:recla/providers/producto.dart';
@@ -23,6 +24,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => StickerProvider()),
         ChangeNotifierProvider(create: (_) => ProductoProvider()),
         ChangeNotifierProvider(create: (_) => TablaClasificacionProvider()),
+        ChangeNotifierProvider(create: (_) => ChatsProvider()),
         //ChangeNotifierProvider(create: (_) => VentaProvider()),
       ],
       child: const MyApp(),

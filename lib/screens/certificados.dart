@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:recla/screens/beneficios.dart';
+import 'package:recla/screens/chats.dart';
 import 'package:recla/screens/compra_productos.dart';
 import 'package:recla/screens/perfil_eco.dart';
 import 'package:recla/screens/tabla_clasificacion.dart';
@@ -27,17 +28,17 @@ class _CertificadosPaginaState extends State<CertificadosPagina> {
 
     // NAVEGACIÓN BASADA EN LA OPCIÓN SELECCIONADA
     if (index == 4) {
-      Navigator.of(
-        context,
-      ).push(MaterialPageRoute(builder: (_) => const PerfilEcoPagina()));
+      Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => const PerfilEcoPagina()));
     } else if (index == 2) {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => const TablaClasificacionPagina()),
-      );
+      Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => const TablaClasificacionPagina()));
     } else if (index == 0) {
-      Navigator.of(
-        context,
-      ).push(MaterialPageRoute(builder: (_) => const CompraProductosPagina()));
+      Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => const CompraProductosPagina()));
+    } else if (index == 3) {
+      Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => const ChatsPagina()));
     }
   }
 
