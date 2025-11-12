@@ -445,9 +445,12 @@ class _RegistroProductoState extends State<RegistroProducto> {
         ),
       ),
 
-      bottomNavigationBar: NavBar(
-        opcionSeleccionada: opcionSeleccionada,
-        onItemTapped: _onItemTapped,
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: NavBar(
+          opcionSeleccionada: opcionSeleccionada,
+          onItemTapped: _onItemTapped,
+        ),
       ),
     );
   }

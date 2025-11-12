@@ -156,9 +156,12 @@ class _StickersPaginaState extends State<StickersPagina> {
         ),
       ),
 
-      bottomNavigationBar: NavBar(
-        opcionSeleccionada: opcionSeleccionada,
-        onItemTapped: _onItemTapped,
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: NavBar(
+          opcionSeleccionada: opcionSeleccionada,
+          onItemTapped: _onItemTapped,
+        ),
       ),
     );
   }

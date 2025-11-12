@@ -102,9 +102,12 @@ class _CertificadosPersonaPaginaState extends State<CertificadosPersonaPagina> {
         ),
       ),
 
-      bottomNavigationBar: NavBar(
-        opcionSeleccionada: opcionSeleccionada,
-        onItemTapped: _onItemTapped,
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: NavBar(
+          opcionSeleccionada: opcionSeleccionada,
+          onItemTapped: _onItemTapped,
+        ),
       ),
     );
   }

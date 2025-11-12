@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-
-import 'package:recla/screens/login.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/services.dart';
+
+import 'package:recla/screens/login.dart';
+
 
 class VideoYoutubeBienvenida extends StatefulWidget {
   final String videoId;
@@ -30,6 +32,8 @@ class _VideoYoutubeState extends State<VideoYoutubeBienvenida> {
         flags: const YoutubePlayerFlags(
           autoPlay: true,
           mute: false,
+          forceHD: true,
+          enableCaption: false
         ),
       );
     }
@@ -44,6 +48,10 @@ class _VideoYoutubeState extends State<VideoYoutubeBienvenida> {
   }
 
   void _onVideoFinished() {
+    // Restaurar orientación a vertical
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (_) => const Login()),
     );
@@ -93,24 +101,26 @@ class _VideoYoutubeState extends State<VideoYoutubeBienvenida> {
 
     // Para MÓVIL: Usa el reproductor integrado
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bienvenido a RECLA'),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-      ),
-      body: Center(
-        child: YoutubePlayer(
-          controller: _controller,
-          showVideoProgressIndicator: true,
-          progressIndicatorColor: Colors.amber,
-          onReady: () {
-            debugPrint('Video listo para reproducir');
-          },
-          onEnded: (metaData) {
-            debugPrint('Video finalizado - Redirigiendo a Login');
-            _onVideoFinished();
-          },
-        ),
+      appBar: null,
+      body: OrientationBuilder(
+        builder: (context, orientation) {
+          return Center(
+            child: YoutubePlayer(
+              controller: _controller,
+              showVideoProgressIndicator: true,
+              progressIndicatorColor: Colors.amber,
+              //isFullScreen: orientation == Orientation.landscape,
+              onReady: () {
+                debugPrint('Video listo para reproducir');
+                _controller.toggleFullScreenMode(); // Pantalla completa
+              },
+              onEnded: (metaData) {
+                debugPrint('Video finalizado - Redirigiendo a Login');
+                _onVideoFinished();
+              },
+            ),
+          );
+        },
       ),
     );
   }

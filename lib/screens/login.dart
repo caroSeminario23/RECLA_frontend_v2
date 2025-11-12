@@ -82,6 +82,7 @@ class _LoginState extends State<Login> {
                 TextFormField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
                   decoration: const InputDecoration(
                     labelText: 'Correo electrónico',
                     border: OutlineInputBorder(),
@@ -105,6 +106,7 @@ class _LoginState extends State<Login> {
                 TextFormField(
                   controller: _passwordController,
                   obscureText: _obscurePassword,
+                  textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
                     labelText: 'Contraseña',
                     border: const OutlineInputBorder(),

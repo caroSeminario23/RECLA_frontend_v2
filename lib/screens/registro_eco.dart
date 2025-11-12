@@ -4,7 +4,7 @@ import 'package:recla/providers/usuario.dart';
 import 'package:recla/screens/login.dart';
 import 'package:recla/widgets/encabezado.dart';
 import 'package:intl/intl.dart';
-import 'package:recla/widgets/video_youtube.dart';
+import 'package:recla/screens/video_youtube.dart';
 
 class RegistroEco extends StatefulWidget {
   const RegistroEco({super.key});
@@ -179,6 +179,7 @@ class _RegistroEcoState extends State<RegistroEco> {
                   child: AbsorbPointer(
                     child: TextFormField(
                       controller: _fecNacimientoController,
+                      textInputAction: TextInputAction.next,
                       decoration: const InputDecoration(
                         labelText: 'Fecha de nacimiento (YYYY-MM-DD)',
                         border: OutlineInputBorder(),

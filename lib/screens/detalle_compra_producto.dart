@@ -221,9 +221,12 @@ class _DetalleCompraProductoState extends State<DetalleCompraProducto> {
         ),
       ),
 
-      bottomNavigationBar: NavBar(
-        opcionSeleccionada: opcionSeleccionada,
-        onItemTapped: _onItemTapped,
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: NavBar(
+          opcionSeleccionada: opcionSeleccionada,
+          onItemTapped: _onItemTapped,
+        ),
       ),
 
     );
