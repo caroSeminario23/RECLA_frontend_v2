@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:recla/models/recurso_educativo.dart';
 
 class PortadaREducativo extends StatelessWidget {
-  final Map<String, dynamic> recurso;
+  final RecursoEducativoPortada recurso;
 
   const PortadaREducativo({
     super.key,
@@ -10,10 +11,11 @@ class PortadaREducativo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String nombreTipoRecurso = switch (recurso['tipoRecurso']) {
-      1 => 'Video',
+    final String nombreTipoRecurso = switch (recurso.tipoContenido) {
+      1 => 'Art. web',
       2 => 'Infografía',
-      3 => 'Artículo',
+      3 => 'Video',
+      4 => 'Art. cient.',
       _ => '',
     };
 
@@ -46,7 +48,7 @@ class PortadaREducativo extends StatelessWidget {
               alignment: Alignment.center,
               children: [
                 // IMAGEN
-                Image.network(recurso['imgPortada'], width: 155, height: 155),
+                Image.network(recurso.portadaUrl, width: 155, height: 155),
 
                 // BOTÓN SOBREPUESTO
                 Positioned(
@@ -79,7 +81,20 @@ class PortadaREducativo extends StatelessWidget {
 
             // TÍTULO DEL RECURSO
             Text(
-              recurso['titulo'],
+              recurso.titulo,
+              textAlign: TextAlign.center,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+            ),
+
+            const SizedBox(height: 3),
+
+            // PORCENTAJE DE ACIERTO Y ESTADO DEL RECURSO
+            Text(
+              '${_obtenerEstadoRecurso(recurso)} ${recurso.porcentajeAcierto}%',
               textAlign: TextAlign.center,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
@@ -91,5 +106,14 @@ class PortadaREducativo extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // Método auxiliar para calcular el estado
+  String _obtenerEstadoRecurso(RecursoEducativoPortada recurso) {
+    if (!recurso.resuelto) return '⚫';
+    
+    if (recurso.porcentajeAcierto == 0) return '🔴';
+    if (recurso.porcentajeAcierto < 100) return '🟡';
+    return '🟢';
   }
 }

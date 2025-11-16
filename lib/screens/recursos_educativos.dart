@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:recla/models/recurso_educativo.dart';
+import 'package:recla/providers/recurso_educativo.dart';
+
+import 'package:recla/providers/usuario.dart';
 import 'package:recla/screens/beneficios.dart';
 import 'package:recla/screens/chats.dart';
 import 'package:recla/screens/compra_productos.dart';
@@ -11,12 +16,12 @@ class RecursosEducativosPagina extends StatefulWidget {
   const RecursosEducativosPagina({super.key});
 
   @override
-  State<RecursosEducativosPagina> createState() =>
-      _RecursosEducativosPaginaState();
+  State<RecursosEducativosPagina> createState() => _RecursosEducativosPaginaState();
 }
 
 class _RecursosEducativosPaginaState extends State<RecursosEducativosPagina> {
   int opcionSeleccionada = 1; // Beneficios es la opción 1
+  List<RecursoEducativoPortada> portadasRecEdu = [];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -40,6 +45,30 @@ class _RecursosEducativosPaginaState extends State<RecursosEducativosPagina> {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => const ChatsPagina()));
     }
+  }
+
+  // Cargar portadas de recursos educativos
+  Future<void> _cargarRecursosEducativos() async {
+    final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);
+    final recursoEducativoProvider = Provider.of<RecursoEducativoProvider>(context, listen: false);
+
+    final int idUsuario = usuarioProvider.idUsuario ?? 1;
+
+    final portadasRecEdu = await recursoEducativoProvider.presentarPortadasRecEducativos(idUsuario);
+
+    setState(() {
+      this.portadasRecEdu = portadasRecEdu;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    
+    // Usar addPostFrameCallback para asegurar que el contexto esté disponible
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _cargarRecursosEducativos();
+    });
   }
 
   @override
@@ -68,21 +97,15 @@ class _RecursosEducativosPaginaState extends State<RecursosEducativosPagina> {
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [GrupoREducativos(
-              recursos: [
-                {
-                  "titulo": "Título del recurso 1",
-                  "descripcion": "Descripción del recurso educativo",
-                  "imagen": "ruta/imagen.png",
-                  // otros campos según requiera tu widget
-                },
-                {
-                  "titulo": "Título del recurso 2",
-                  "descripcion": "Otra descripción",
-                  "imagen": "ruta/imagen2.png",
-                },
-              ],
-            )],
+            children: [
+              Consumer<RecursoEducativoProvider>(
+                builder: (context, recEduProvider, child) {
+                  return GrupoREducativos(
+                    recursos: portadasRecEdu,
+                  );
+                }
+              )
+            ],
           ),
         ),
       ),

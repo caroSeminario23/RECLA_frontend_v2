@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:recla/widgets/portada_rec_eduactivos.dart';
+import 'package:recla/models/recurso_educativo.dart';
+import 'package:recla/widgets/portada_rec_educativos.dart';
 
 class GrupoREducativos extends StatelessWidget {
-  final List<Map<String, dynamic>> recursos;
+  final List<RecursoEducativoPortada> recursos;
 
   const GrupoREducativos({super.key, required this.recursos});
 

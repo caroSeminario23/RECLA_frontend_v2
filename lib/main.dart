@@ -5,6 +5,7 @@ import 'package:recla/providers/chats.dart';
 
 import 'package:recla/providers/estatus.dart';
 import 'package:recla/providers/producto.dart';
+import 'package:recla/providers/recurso_educativo.dart';
 import 'package:recla/providers/stickers.dart';
 import 'package:recla/providers/tabla_clasificacion.dart';
 import 'package:recla/providers/usuario.dart';
@@ -22,6 +23,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => InsigniaProvider()),
         ChangeNotifierProvider(create: (_) => CertificadoProvider()),
         ChangeNotifierProvider(create: (_) => StickerProvider()),
+        ChangeNotifierProvider(create: (_) => RecursoEducativoProvider()),
         ChangeNotifierProvider(create: (_) => ProductoProvider()),
         ChangeNotifierProvider(create: (_) => TablaClasificacionProvider()),
         ChangeNotifierProvider(create: (_) => ChatsProvider()),
