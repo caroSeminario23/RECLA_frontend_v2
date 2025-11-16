@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recla/models/recurso_educativo.dart';
+import 'package:recla/screens/rec_edu_contenido.dart';
 
 class PortadaREducativo extends StatelessWidget {
   final RecursoEducativoPortada recurso;
@@ -24,9 +25,9 @@ class PortadaREducativo extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: ElevatedButton(
         onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Funcionalidad en desarrollo')),
-          );
+          Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => RecEduContenidoPagina(recursoPortada: recurso)));
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Theme.of(context).colorScheme.secondaryContainer,

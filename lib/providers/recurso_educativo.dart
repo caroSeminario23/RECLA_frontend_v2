@@ -47,7 +47,7 @@ class RecursoEducativoProvider extends ChangeNotifier {
 
 
   // Método para obtener el contenido de un recurso educativo
-  Future<List<RecursoEducativoContenido>> presentarContenidoRecEducativo(int idRecEducativo) async {
+  Future<RecursoEducativoContenido?> presentarContenidoRecEducativo(int idRecEducativo) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
@@ -60,7 +60,7 @@ class RecursoEducativoProvider extends ChangeNotifier {
 
     } catch (e) {
       _errorMessage = 'Error al cargar el contenido del recurso educativo $idRecEducativo';
-      return [];
+      return null;
 
     } finally {
       _isLoading = false;

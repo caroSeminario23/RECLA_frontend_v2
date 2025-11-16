@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:recla/providers/usuario.dart';
 import 'package:recla/screens/chat_individual.dart';
 
 class DetalleYComprarProducto extends StatelessWidget {
@@ -19,8 +22,8 @@ class DetalleYComprarProducto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    const int idUsuarioActual = 1;
+    final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);
+    final int idUsuarioActual = usuarioProvider.idUsuario ?? 1;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0), // Margen horizontal

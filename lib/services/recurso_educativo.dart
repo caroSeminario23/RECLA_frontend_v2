@@ -32,7 +32,7 @@ class RecursoEducativoService {
   }
 
   // PRESENTAR CONTENIDO DE UN RECURSO EDUCATIVO
-  Future<List<RecursoEducativoContenido>> presentarContenidoRecEducativo(int idRecEducativo) async {
+  Future<RecursoEducativoContenido> presentarContenidoRecEducativo(int idRecEducativo) async {
     final response = await http.post(
       Uri.parse('$baseUrl/detalle_recurso_educativo'),
       headers: {'Content-Type': 'application/json'},
@@ -41,9 +41,9 @@ class RecursoEducativoService {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonResp = jsonDecode(response.body);
-      final List<dynamic> data = jsonResp['data'];
+      final Map<String, dynamic> data = jsonResp['data'];
 
-      return data.map((json) => RecursoEducativoContenido.fromJson(json)).toList();
+      return RecursoEducativoContenido.fromJson(data);
     } else {
       String message;
       try {
