@@ -87,12 +87,12 @@ class ChatService {
         final DateTime fechaUltimoMensaje = DateTime.parse(ultimoMsgJson['fecha_hora']);
 
         // 6. ¡LA CLAVE! Como el backend no da nombre, creamos uno temporal.
-        final String nombreTemporal = "Usuario $idReceptor";
+        final String nombreReceptor = item['nombre_vendedor'];
 
         conversaciones.add(
           ConversacionResumenResponse(
             idUsuarioReceptor: idReceptor,
-            nombreReceptor: nombreTemporal, // <-- Usamos el nombre temporal
+            nombreReceptor: nombreReceptor, // <-- Usamos el nombre temporal
             ultimoMensaje: ultimoMensaje,
             fechaUltimoMensaje: fechaUltimoMensaje,
             avatarUrl: null, // No tenemos avatar

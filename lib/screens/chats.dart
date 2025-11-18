@@ -66,7 +66,7 @@ class _ChatsPaginaState extends State<ChatsPagina> {
     //Provider.of<ChatsProvider>(context, listen: false)
     //  .cargarConversaciones(widget.idUsuarioActual);
 
-    idUsuarioActual = usuarioProvider.idUsuario ?? 1;
+    final int idUsuarioActual = usuarioProvider.idUsuario ?? 1;
 
     await chatsProvider.cargarConversaciones(idUsuarioActual);
   }
