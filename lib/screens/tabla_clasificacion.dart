@@ -10,6 +10,7 @@ import 'package:recla/screens/chats.dart';
 import 'package:recla/screens/compra_productos.dart';
 import 'package:recla/screens/login.dart';
 import 'package:recla/screens/perfil_eco.dart';
+import 'package:recla/screens/perfil_visitante.dart';
 import 'package:recla/utils/ref_imagenes.dart';
 import 'package:recla/widgets/navbar.dart';
 import 'package:recla/widgets/posiciones_tabla.dart';
@@ -154,7 +155,20 @@ class _TablaClasificacionPaginaState extends State<TablaClasificacionPagina> {
                   };
                 }).toList();
 
-                  return PosicionesTabla(posiciones: posiciones);
+                  return PosicionesTabla(
+                    posiciones: posiciones,
+                    onItemTapped: (idUsuarioSeleccionado) {
+                      if (idUsuarioSeleccionado != idUsuario) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => PerfilVisitantePagina(
+                              idUsuarioVisitante: idUsuarioSeleccionado,
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  );
                 },
               ),
             ],
