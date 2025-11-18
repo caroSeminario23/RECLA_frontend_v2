@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recla/screens/cuestionario.dart';
+import 'package:recla/screens/rec_edu_cuestionario.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -74,33 +76,6 @@ class _RecEduContenidoPaginaState extends State<RecEduContenidoPagina> {
   @override
   void initState() {
     super.initState();
-    
-    // Inicializar el WebViewController
-    /*_webViewController = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onPageStarted: (String url) {
-            // print('Página iniciando: $url');
-          },
-          onPageFinished: (String url) {
-            // print('Página cargada: $url');
-          },
-          onWebResourceError: (WebResourceError error) {
-            // print('Error: ${error.description}');
-          },
-        ),
-      );*/
-
-    // Inicializar el YoutubePlayerController
-    _youtubeController = YoutubePlayerController(
-      initialVideoId: '',
-      flags: const YoutubePlayerFlags(
-        autoPlay: false,
-        mute: false,
-        enableCaption: false
-      ),
-    );
 
     // Usar addPostFrameCallback para asegurar que el contexto esté disponible
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -137,7 +112,7 @@ class _RecEduContenidoPaginaState extends State<RecEduContenidoPagina> {
           loop: false,
           isLive: false,
           forceHD: false,
-          enableCaption: true,
+          enableCaption: false,
         ),
       );
     }
@@ -162,17 +137,18 @@ class _RecEduContenidoPaginaState extends State<RecEduContenidoPagina> {
           onWebResourceError: (WebResourceError error) {},
         ),
       )
-      ..setOnConsoleMessage((JavaScriptConsoleMessage message) {});
-
+      ..setOnConsoleMessage((JavaScriptConsoleMessage message) {})
+      ..setUserAgent('Flutter WebView') // Identificar como navegador
+      ..enableZoom(true); // Habilitar zoom
   }
 
   // Método para obtener la URL correcta del PDF
-  String _getPdfUrl(String url) {
+  /*String _getPdfUrl(String url) {
     if (url.endsWith('.pdf')) {
       return 'https://docs.google.com/gviewer?url=${Uri.encodeComponent(url)}&embedded=true';
     }
     return url;
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -231,6 +207,9 @@ class _RecEduContenidoPaginaState extends State<RecEduContenidoPagina> {
                         color: Theme.of(context).colorScheme.onSecondaryContainer,
                       ),
                     ),
+
+                    const SizedBox(height: 8),
+
                     SizedBox(
                       height: 600,
                       child: ClipRRect(
@@ -238,6 +217,14 @@ class _RecEduContenidoPaginaState extends State<RecEduContenidoPagina> {
                         child: WebViewWidget(
                           controller: _createWebViewController()
                             ..loadRequest(Uri.parse(contenidoRecEdu!.contenidoUrl)),
+                          gestureRecognizers: {
+                            Factory<VerticalDragGestureRecognizer>(
+                              () => VerticalDragGestureRecognizer(),
+                            ),
+                            Factory<HorizontalDragGestureRecognizer>(
+                              () => HorizontalDragGestureRecognizer(),
+                            ),
+                          },
                         ),
                       ),
                     ),
@@ -253,7 +240,6 @@ class _RecEduContenidoPaginaState extends State<RecEduContenidoPagina> {
                         color: Theme.of(context).colorScheme.onSecondaryContainer,
                       ),
                     ),
-                    //Image.network(contenidoRecEdu!.contenidoUrl),
                     InteractiveViewer(
                       boundaryMargin: const EdgeInsets.all(100),
                       minScale: 0.5,
@@ -321,7 +307,7 @@ class _RecEduContenidoPaginaState extends State<RecEduContenidoPagina> {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (_) => const CuestionarioPagina(),
+                      builder: (_) => RecEduCuestionarioPagina(recursoPortada: widget.recursoPortada),
                     ),
                   );
                 },
@@ -350,14 +336,6 @@ class _RecEduContenidoPaginaState extends State<RecEduContenidoPagina> {
                   textStyle: Theme.of(context).textTheme.labelLarge,
                 ),
               ),
-
-              /*Consumer<RecursoEducativoProvider>(
-                builder: (context, recEduProvider, child) {
-                  return GrupoREducativos(
-                    recursos: portadasRecEdu,
-                  );
-                }
-              )*/
             ],
           ),
         ),

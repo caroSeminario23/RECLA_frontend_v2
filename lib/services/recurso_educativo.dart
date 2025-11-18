@@ -85,17 +85,31 @@ class RecursoEducativoService {
 
   // GUARDAR LAS RESPUESTAS DE UN CUESTIONARIO DE RECURSO EDUCATIVO
   Future<List<RecursoEducativoRespuesta>> guardarRptsCuestionarioRecEducativo(int idUsuario, int idRecEducativo, Map<int, String> respuestas) async {
+    final payload = {
+      'id_usuario': idUsuario,
+      'id_rec_edu': idRecEducativo,
+      'respuestas': respuestas.map(
+        (key, value) => MapEntry(key.toString(), value),
+      ),
+    };
+
     final response = await http.post(
       Uri.parse('$baseUrl/guardar_respuestas_cuestionario'),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'id_usuario': idUsuario, 'id_rec_edu': idRecEducativo, 'respuestas': respuestas}),
+      body: jsonEncode(payload),
     );
+
+    //print('Status: ${response.statusCode}');
+    //print('Response: ${response.body}');
 
     if (response.statusCode == 201) {
       final Map<String, dynamic> jsonResp = jsonDecode(response.body);
-      final List<dynamic> data = jsonResp['data'];
+      final Map<String, dynamic> data = jsonResp['data'];
 
-      return data.map((json) => RecursoEducativoRespuesta.fromJson(json)).toList();
+      //print('Respuesta backend: ${response.body}');
+      //print('Datos extraídos: $data');
+
+      return [RecursoEducativoRespuesta.fromJson(data)];
     } else {
       String message;
       try {

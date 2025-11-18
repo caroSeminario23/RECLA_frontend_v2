@@ -101,11 +101,15 @@ class RecursoEducativoProvider extends ChangeNotifier {
     try {
       final cuestionarioContenido = await _recursoEducativoService.guardarRptsCuestionarioRecEducativo(idUsuario, idRecEducativo, respuestas);
       //_receduRespuestas = cuestionarioContenido;
+      _isLoading = false;
       _errorMessage = null;
       return cuestionarioContenido;
 
     } catch (e) {
       _errorMessage = 'Error al cargar el cuestionario del recurso educativo $idRecEducativo';
+      _isLoading = false;
+      notifyListeners();
+      //print('Error en provider: $_errorMessage');
       return [];
       
     } finally {
