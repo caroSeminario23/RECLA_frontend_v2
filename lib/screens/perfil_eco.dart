@@ -11,6 +11,7 @@ import 'package:recla/screens/insignias_persona.dart';
 import 'package:recla/screens/login.dart';
 import 'package:recla/screens/productos_persona.dart';
 import 'package:recla/screens/tabla_clasificacion.dart';
+import 'package:recla/screens/video_repeticion.dart';
 import 'package:recla/utils/ref_imagenes.dart';
 import 'package:recla/widgets/barra_puntos.dart';
 import 'package:recla/widgets/navbar.dart';
@@ -92,15 +93,11 @@ class _PerfilEcoPaginaState extends State<PerfilEcoPagina> {
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-            icon: Image.asset(
-              arStickers,
-              width: 24,
-              height: 24,
-            ),
+            icon: const Icon(Icons.video_camera_back),
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Funcionalidad en desarrollo')),
-              );
+              Navigator.of(
+                context,
+              ).push(MaterialPageRoute(builder: (_) => const VideoYoutubeRepeticion(videoId: 'ai0Ig4OCy8Q')));
             },
           ),
         ],
