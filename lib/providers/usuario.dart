@@ -121,4 +121,26 @@ class UsuarioProvider extends ChangeNotifier {
     }
   }
 
+
+  // OBTENER USERNAME
+  Future<UsuarioUsername?> obtenerUsername(int idUsuario) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final response = await _usuarioService.obtenerUsername(idUsuario);
+      _errorMessage = null;
+      return response;
+
+    } catch (e) {
+      _errorMessage = 'Error al obtener el username';
+      return null;
+      
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
 }

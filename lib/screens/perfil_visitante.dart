@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:recla/models/usuario.dart';
 
 import 'package:recla/providers/estatus.dart';
 import 'package:recla/providers/usuario.dart';
 import 'package:recla/screens/beneficios.dart';
-import 'package:recla/screens/certificados_persona.dart';
+//import 'package:recla/screens/certificados_persona.dart';
+import 'package:recla/screens/certificados_visitante.dart';
 import 'package:recla/screens/chats.dart';
 import 'package:recla/screens/compra_productos.dart';
-import 'package:recla/screens/insignias_persona.dart';
+//import 'package:recla/screens/insignias_persona.dart';
+import 'package:recla/screens/insignias_visitante.dart';
 import 'package:recla/screens/perfil_eco.dart';
-import 'package:recla/screens/productos_persona.dart';
+//import 'package:recla/screens/productos_persona.dart';
+import 'package:recla/screens/productos_visitante.dart';
 import 'package:recla/screens/tabla_clasificacion.dart';
 import 'package:recla/utils/ref_imagenes.dart';
 import 'package:recla/widgets/barra_puntos.dart';
@@ -27,6 +31,8 @@ class PerfilVisitantePagina extends StatefulWidget {
 
 class _PerfilVisitantePaginaState extends State<PerfilVisitantePagina> {
   late int idUsuarioVisitante;
+  UsuarioUsername? usernameVisita;
+
   int opcionSeleccionada = 2; // Índice de la opción seleccionada (Perfil)
 
   void _onItemTapped(int index) {
@@ -55,19 +61,28 @@ class _PerfilVisitantePaginaState extends State<PerfilVisitantePagina> {
 
   // Cargar estatus del usuario
   Future<void> _cargarEstatus() async {
-    //final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);
+    final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);
     final estatusProvider = Provider.of<EstatusProvider>(context, listen: false);
 
     //final int idUsuario = usuarioProvider.idUsuario ?? 1;
 
     await estatusProvider.cargarEstatusPerfil(idUsuarioVisitante);
     await estatusProvider.cargarEstatusContadores(idUsuarioVisitante);
+
+    final UsuarioUsername? usernameVisita = await usuarioProvider.obtenerUsername(idUsuarioVisitante);
+    //print('Username de la visita: ${usernameVisita?.username}');
+
+    setState(() {
+      this.usernameVisita = usernameVisita;
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    
+
+    idUsuarioVisitante = widget.idUsuarioVisitante;
+
     // Usar addPostFrameCallback para asegurar que el contexto esté disponible
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _cargarEstatus();
@@ -81,7 +96,7 @@ class _PerfilVisitantePaginaState extends State<PerfilVisitantePagina> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'PERFIL ECOAPRENDIZ',
+          'ALIADO ECOAPRENDIZ',
           style: Theme.of(context).textTheme.titleMedium,
         ),
         leading: IconButton(
@@ -111,7 +126,7 @@ class _PerfilVisitantePaginaState extends State<PerfilVisitantePagina> {
                   return PresentacionUsuario(
                     fotoAprendiz: fotoPerfilPredeterminado,
                     experiencia: estatusProvider.ptosExperiencia ?? 0,
-                    nombre: usuarioProvider.username ?? 'Nombre Apellido',
+                    nombre: usernameVisita?.username ?? 'Nombre Apellido',
                   );
                 },
               ),
@@ -147,7 +162,7 @@ class _PerfilVisitantePaginaState extends State<PerfilVisitantePagina> {
               color: Theme.of(context).colorScheme.outlineVariant,
             ),
             Text(
-              'MIS INSIGNIAS',
+              'SUS INSIGNIAS',
               style: Theme.of(context).textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
@@ -158,7 +173,7 @@ class _PerfilVisitantePaginaState extends State<PerfilVisitantePagina> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => const InsigniasPersonaPagina(),
+                    builder: (_) => InsigniasVisitantePagina(idUsuarioVisitante: idUsuarioVisitante),
                   ),
                 );
               },
@@ -198,7 +213,7 @@ class _PerfilVisitantePaginaState extends State<PerfilVisitantePagina> {
               color: Theme.of(context).colorScheme.outlineVariant,
             ),
             Text(
-              'MIS CERTIFICADOS',
+              'SUS CERTIFICADOS',
               style: Theme.of(context).textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
@@ -209,7 +224,7 @@ class _PerfilVisitantePaginaState extends State<PerfilVisitantePagina> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => const CertificadosPersonaPagina(),
+                    builder: (_) => CertificadosVisitantePagina(idUsuarioVisitante: idUsuarioVisitante),
                   ),
                 );
               },
@@ -249,7 +264,7 @@ class _PerfilVisitantePaginaState extends State<PerfilVisitantePagina> {
               color: Theme.of(context).colorScheme.outlineVariant,
             ),
             Text(
-              'MIS PRODUCTOS',
+              'SUS PRODUCTOS',
               style: Theme.of(context).textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
@@ -260,7 +275,7 @@ class _PerfilVisitantePaginaState extends State<PerfilVisitantePagina> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => const ProductosPersonaPagina(),
+                    builder: (_) => ProductosVisitantePagina(idUsuarioVisitante: idUsuarioVisitante),
                   ),
                 );
               },

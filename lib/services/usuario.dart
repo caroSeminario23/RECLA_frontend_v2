@@ -102,6 +102,34 @@ class UsuarioService {
       throw Exception('Error al validar username: ${response.statusCode} - $message');
     }
   }
+
+
+
+  // OBTENER USERNAME DE UN USUARIO POR ID
+  // VALIDACIÓN DE USERNAME
+  Future<UsuarioUsername> obtenerUsername(int idUsuario) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/obtener_username_vendedor'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'id_usuario': idUsuario}),
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> jsonResp = jsonDecode(response.body);
+      final Map<String, dynamic> data = jsonResp['data'];
+      return UsuarioUsername.fromJson(data);
+      
+    } else {
+      String message;
+      try {
+        final Map<String, dynamic> err = jsonDecode(response.body);
+        message = err['message'] ?? response.body;
+      } catch (_) {
+        message = response.body;
+      }
+      throw Exception('Error al validar username: ${response.statusCode} - $message');
+    }
+  }
   
 }
 

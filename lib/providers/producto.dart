@@ -126,6 +126,7 @@ class ProductoProvider extends ChangeNotifier {
     } catch (e) {
       //print('❌ Provider: Error - $e');
       _errorMessage = 'Error al obtener productos del vendedor';
+      _productosVendedor = [];
       return false;
     } finally {
       _isLoading = false;

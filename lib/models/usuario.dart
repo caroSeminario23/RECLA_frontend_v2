@@ -82,3 +82,18 @@ class UsernameValidacion {
     };
   }
 }
+
+
+class UsuarioUsername {
+  String username;
+
+  UsuarioUsername({
+    required this.username,
+  });
+
+  factory UsuarioUsername.fromJson(Map<String, dynamic> json) {
+    return UsuarioUsername(
+      username: json['username'] as String,
+    );
+  }
+}
