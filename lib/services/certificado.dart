@@ -61,7 +61,7 @@ class CertificadoService {
   }
 
 
-  // DESBLOQUEAR CERTIFICADO
+  // DESBLOQUEAR CERTIFICADO (REVISAR)
   Future<bool> desbloquearCertificado(int idUsuario, int idCertificado) async {
     final response = await http.post(
       Uri.parse('$baseUrl/marcar_certificado_revisado'),
@@ -80,6 +80,34 @@ class CertificadoService {
         message = response.body;
       }
       throw Exception('Error al desbloquear certificado: ${response.statusCode} - $message');
+    }
+  }
+
+
+  // ENVIAR CERTIFICADO (REVISAR)
+  Future<bool> enviarCertificado(int idUsuario, int idCertificado, String username, String plantillaCertificadoUrl) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/enviar_certificado'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'id_certificado': idCertificado, 
+        'id_usuario': idUsuario,
+        'username': username,
+        'plantilla_url': plantillaCertificadoUrl,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      String message;
+      try {
+        final Map<String, dynamic> err = jsonDecode(response.body);
+        message = err['message'] ?? response.body;
+      } catch (_) {
+        message = response.body;
+      }
+      throw Exception('Error al enviar certificado: ${response.statusCode} - $message');
     }
   }
 }

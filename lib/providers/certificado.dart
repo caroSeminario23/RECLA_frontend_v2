@@ -91,4 +91,36 @@ class CertificadoProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+
+
+  // Enviar un certificado para un usuario
+  Future<bool> enviarCertificadoPorCorreo(int idUsuario, int idCertificado, String username, String plantillaCertificadoUrl) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final exito = await _certificadoService.enviarCertificado(idUsuario, idCertificado, username, plantillaCertificadoUrl);
+
+      if (exito) {
+        // Actualizar el estado del certificado
+        for (var certificado in _certificadosConEstado) {
+          if (certificado.idCertificado == idCertificado) {
+            certificado.revisado = true;
+            break;
+          }
+        }
+        notifyListeners();
+      }
+
+      return exito;
+    } catch (e) {
+      _errorMessage = 'Error al enviar el certificado $idCertificado para el usuario $idUsuario';
+      return false;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recla/models/certificado.dart';
 import 'package:recla/widgets/certificado_desbloqueo_dialog.dart';
+import 'package:recla/widgets/certificado_impresion_dialog.dart';
 
 class GrupoCertificados extends StatelessWidget {
   final List<CertificadoConEstado> certificados;
@@ -66,6 +67,19 @@ class GrupoCertificados extends StatelessWidget {
                 nombreInsignia2: cert.nombreInsignia2,
                 nombreInsignia3: cert.nombreInsignia3,
                 desbloqueado: true,
+              ),
+            );
+          } else if (cert.desbloqueado && cert.revisado) {
+            showDialog(
+              context: context, 
+              builder: (context) => CertificadoImpresionDialog(
+                idCertificado: cert.idCertificado,
+                urlImagen: cert.urlImagen,
+                nombreInsignia1: cert.nombreInsignia1,
+                nombreInsignia2: cert.nombreInsignia2,
+                nombreInsignia3: cert.nombreInsignia3,
+                revisado: cert.revisado,
+                plantillaCertificadoUrl: cert.urlImagen,
               ),
             );
           }
