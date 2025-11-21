@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'dart:async';
 
 import 'package:recla/providers/chats.dart';
+import 'package:recla/providers/venta.dart';
 import 'package:recla/screens/beneficios.dart';
 import 'package:recla/screens/chats.dart';
 import 'package:recla/screens/compra_productos.dart';
@@ -19,12 +20,14 @@ class ChatIndividualPagina extends StatefulWidget {
   final int idUsuarioActual; // ID del usuario actual
   final int idUsuarioReceptor; // ID del contacto
   final String nombreUsuario; // Nombre del contacto
+  final int idProducto; // ID del producto relacionado
 
   const ChatIndividualPagina({
     super.key,
     required this.idUsuarioActual,
     required this.idUsuarioReceptor,
     required this.nombreUsuario,
+    required this.idProducto,
   });
 
   @override
@@ -161,9 +164,58 @@ class _ChatIndividualPaginaState extends State<ChatIndividualPagina> {
     final localDt = dt.toLocal(); // Convierte a hora local
     return "${localDt.hour}:${localDt.minute.toString().padLeft(2, '0')}";
   }
+  //REGISTRAR VENTA
+  Future<void> _registrarVenta(BuildContext context) async {
+    // Definimos quién es el Comprador y quién es el Vendedor
+    // NOTA: Esto asume que el usuario actual (widget.idUsuarioActual) es el Vendedor
+    // y el Receptor (widget.idUsuarioReceptor) es el Comprador.
+    // Si la lógica de tu aplicación es más compleja, ajústala aquí.
+    
+    final int idVendedor = widget.idUsuarioActual;
+    final int idComprador = widget.idUsuarioReceptor;
+    final int idProducto = widget.idProducto;
+    
+    // Obtenemos el provider de Venta. Usamos `read` para llamar a la función.
+    final ventaProvider = context.read<VentaProvider>();
+
+    try {
+      // 1. Llama a la función de registro de venta
+      final exito = await ventaProvider.registroVent(
+        idVendedor,
+        idComprador,
+        idProducto,
+      );
+
+      // 2. Manejo de respuesta
+      if (exito == true) {
+        // Registro exitoso
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('✅ ¡Venta registrada exitosamente!')),
+          );
+          // Opcional: Navegar fuera del chat o inhabilitar el botón
+          Navigator.of(context).pop(); // O pop hasta ChatsPagina
+        }
+      } else {
+        // Fallo en el registro (debería ser manejado por el catch, pero es un buen fallback)
+        throw Exception('El registro de venta falló.');
+      }
+    } catch (e) {
+      // Manejo de errores (validación, fallo de conexión, error del servidor)
+      if (mounted) {
+        // Intentamos obtener el error del Provider, si no, mostramos la excepción.
+        final mensajeError = ventaProvider.errorMessage ?? 'Error desconocido al registrar la venta.';
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('❌ Error: $mensajeError')),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final ventaProvider =context.watch<VentaProvider>();
+    final isVentaLoading = ventaProvider.isLoading == true; 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
@@ -184,16 +236,9 @@ class _ChatIndividualPaginaState extends State<ChatIndividualPagina> {
         children: [
           const SizedBox(height: 16), // Espaciado
           BotonComprado(
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ChatsPagina(
-                    //idUsuarioActual: widget.idUsuarioActual, // Pasar el ID del usuario actual
-                  ),
-                ),
-              );
-            },
+            onPressed: isVentaLoading
+                ? null
+                : () => _registrarVenta(context),
           ),
           /*
           BotonComprado(
