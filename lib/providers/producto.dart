@@ -53,7 +53,7 @@ class ProductoProvider extends ChangeNotifier {
     }
   }
   //FILTRAR PRODUCTOS
-  Future<List<ProductoFiltradoResponse>> filtrarP(List<int> tipo, String material) async {
+  Future<List<ProductoFiltradoResponse>> filtrarP(List<int> tipo, String material, int idUsuario) async {
     developer.log('{Filtrar productos - tipo: $tipo, material: "$material"}');
     _isLoading = true;
     _errorMessage = null;
@@ -62,6 +62,7 @@ class ProductoProvider extends ChangeNotifier {
     final request = ProductoFiltradoRequest(
       tipo: tipo,
       material: material,
+      idUsuarioSesion: idUsuario,
     );
 
     try {

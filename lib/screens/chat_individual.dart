@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:recla/models/producto.dart';
 import 'dart:async';
 
 import 'package:recla/providers/chats.dart';
+import 'package:recla/providers/producto.dart';
 import 'package:recla/providers/venta.dart';
 import 'package:recla/screens/beneficios.dart';
 //import 'package:recla/screens/chats.dart';
@@ -17,9 +19,9 @@ import 'package:recla/widgets/encabezado_chat.dart';
 import 'package:recla/widgets/navbar.dart'; 
 
 class ChatIndividualPagina extends StatefulWidget {
-  final int idUsuarioActual; // ID del usuario actual
-  final int idUsuarioReceptor; // ID del contacto
-  final String nombreUsuario; // Nombre del contacto
+  final int idUsuarioActual; // ID del usuario actual - COMPRADOR
+  final int idUsuarioReceptor; // ID del contacto - VENDEDOR
+  final String nombreUsuario; // Nombre del contacto VENDEDOR
   final int idProducto; // ID del producto relacionado
 
   const ChatIndividualPagina({
@@ -39,6 +41,9 @@ class _ChatIndividualPaginaState extends State<ChatIndividualPagina> {
   final TextEditingController _mensajeController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   Timer? _timer;
+
+  int? idVendedorProducto;
+  ProductoDetalleResponse? detalleProducto;
   
   //final List<Map<String, dynamic>> _mensajes = []; // Lista de mensajes
   //bool _isLoading = false;
@@ -72,10 +77,12 @@ class _ChatIndividualPaginaState extends State<ChatIndividualPagina> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       //print("initState: Widgets listos. Llamando a _cargarMensajes...");
       _cargarMensajes();
-      _timer = Timer.periodic(const Duration(seconds: 5), (_) {
+      _timer = Timer.periodic(const Duration(seconds: 10), (_) {
         //print("Timer: Refrescando mensajes...");
         _cargarMensajes();
       });
+
+      _cargarIdVendedor();
     });
 
   }
@@ -152,6 +159,40 @@ class _ChatIndividualPaginaState extends State<ChatIndividualPagina> {
       _mensajeController.text = texto;
     }
   }
+
+
+  Future<void> _cargarIdVendedor() async {
+    //setState(() => _isLoading = true);
+    //print("_cargarMensajes: Iniciando.");
+    final productoProvider = Provider.of<ProductoProvider>(context, listen: false);
+    // Mensajes de ejemplo con valores brutos
+    //await Future.delayed(const Duration(milliseconds: 500));
+    try {
+      //print("_cargarMensajes: Llamando a getHistorial para Actual: ${widget.idUsuarioActual}, Receptor: ${widget.idUsuarioReceptor}");
+      final detalleProducto = await productoProvider.detalleP(
+        widget.idProducto
+      );
+
+      setState(() {
+      idVendedorProducto = detalleProducto?.idVendedor;
+    });
+
+      //print("_cargarMensajes: Llamada a getHistorial completada.");
+    } catch (e) {
+      //print("_cargarMensajes: Error atrapado en la PANTALLA: $e");
+      // Manejar error si es necesario
+      if(mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error al cargar detalles del producto: $e')),
+        );
+      }
+    }
+    _scrollToBottom();
+
+    
+  }
+
+
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
@@ -220,6 +261,7 @@ class _ChatIndividualPaginaState extends State<ChatIndividualPagina> {
 
   @override
   Widget build(BuildContext context) {
+    final bool esVendedor = widget.idUsuarioActual == idVendedorProducto;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
@@ -239,21 +281,16 @@ class _ChatIndividualPaginaState extends State<ChatIndividualPagina> {
       body: Column(
         children: [
           const SizedBox(height: 16), // Espaciado
-          BotonComprado(
-            onPressed: () {
-              _registrarVenta();
-              /*
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ChatsPagina(
-                    //idUsuarioActual: widget.idUsuarioActual, // Pasar el ID del usuario actual
-                  ),
-                ),
-              );
-              */
-            },
-          ),
+          if (esVendedor) 
+            BotonComprado(
+              onPressed: () {
+                //print('Registrar venta presionado');
+                _registrarVenta();
+              },
+            )
+          else 
+            const SizedBox.shrink(),
+          
           /*
           BotonComprado(
             onPressed: () {

@@ -43,14 +43,18 @@ class ProductoRegistroRequest {
 class ProductoFiltradoRequest {
   List<int> tipo;
   String material;
+  int idUsuarioSesion;
+  
   ProductoFiltradoRequest({
     required this.tipo,
     required this.material,
+    required this.idUsuarioSesion,
   });
   Map<String, dynamic> toJson() {
     return {
       'tipo': tipo,
       'material': material,
+      'id_usuario_sesion': idUsuarioSesion,
     };
   }
 }

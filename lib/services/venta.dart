@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:recla/models/venta.dart';
+import 'package:recla/utils/servicios_externos.dart';
 
 //REGISTRO VENTA
 class VentaService {
-  final String baseUrl = "http://127.0.0.1:5000/venta_routes";
+  final String baseUrl = '$servidorCompraventa/venta_routes';
   Future<bool> registroVenta(VentaRegistroRequest request) async {
     final response = await http.post(
       Uri.parse('$baseUrl/registro_venta'),

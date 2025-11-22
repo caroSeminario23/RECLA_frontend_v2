@@ -12,6 +12,7 @@ import 'package:recla/providers/usuario.dart';
 import 'package:recla/providers/insignia.dart';
 import 'package:recla/providers/certificado.dart';
 import 'package:recla/config/theme.dart';
+import 'package:recla/providers/venta.dart';
 import 'package:recla/screens/bienvenida.dart';
 
 void main() {
@@ -27,6 +28,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => ProductoProvider()),
         ChangeNotifierProvider(create: (_) => TablaClasificacionProvider()),
         ChangeNotifierProvider(create: (_) => ChatsProvider()),
+        ChangeNotifierProvider(create: (_) => VentaProvider()),
         //ChangeNotifierProvider(create: (_) => VentaProvider()),
       ],
       child: const MyApp(),

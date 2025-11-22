@@ -4,6 +4,7 @@ import 'dart:developer' as developer;
 
 import 'package:recla/models/producto.dart';
 import 'package:recla/providers/producto.dart';
+import 'package:recla/providers/usuario.dart';
 import 'package:recla/screens/beneficios.dart';
 import 'package:recla/screens/chats.dart';
 import 'package:recla/screens/login.dart';
@@ -85,10 +86,14 @@ class _CompraProductosState extends State<CompraProductosPagina> {
 
     final materialString = _materialesSeleccionados.join(",");
     developer.log('Materiales seleccionados como string: $materialString');
+
+    final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);
+    final int idUsuario = usuarioProvider.idUsuario ?? 1;
+
     final productos = await Provider.of<ProductoProvider>(
       context,
       listen: false,
-    ).filtrarP(_tipoSeleccionado, materialString);
+    ).filtrarP(_tipoSeleccionado, materialString, idUsuario);
     developer.log('Productos filtrados: $productos');
     developer.log('Productos filtrados: ${productos.length} items');
     
