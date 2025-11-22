@@ -32,6 +32,13 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
+
+
+flutter_launcher_icons:
+  image_path: "assets/icons/logo_app.png"
+  android:
+    notification_icon: "ic_notification"
 
 # The following section is specific to Flutter packages.
 flutter:
