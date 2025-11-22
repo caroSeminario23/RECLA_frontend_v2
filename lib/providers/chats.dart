@@ -33,6 +33,7 @@ class ChatsProvider extends ChangeNotifier {
       _errorMessage = null;
     } catch (e) {
       _errorMessage = 'Error al cargar conversaciones: $e';
+      _conversaciones = [];
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -70,12 +71,13 @@ class ChatsProvider extends ChangeNotifier {
   
 
   // --- ENVIAR MENSAJE ---
-  Future<bool> enviarMensaje(int idUsuarioEnvia, int idUsuarioRecibe, String mensaje) async {
+  Future<bool> enviarMensaje(int idUsuarioEnvia, int idUsuarioRecibe, String mensaje, int idProducto) async {
     _errorMessage = null;
     final request = ChatEnviarRequest(
       idUsuario1: idUsuarioEnvia,
       idUsuario2: idUsuarioRecibe,
       mensaje: mensaje,
+      idProducto: idProducto,
     );
 
     try {

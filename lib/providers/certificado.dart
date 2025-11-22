@@ -54,6 +54,7 @@ class CertificadoProvider extends ChangeNotifier {
       return true;
     } catch (e) {
       _errorMessage = 'Error al cargar certificados desbloqueados del usuario $idUsuario';
+      _certificadosDesbloqueadosUsuario = [];
       return false;
     } finally {
       _isLoading = false;

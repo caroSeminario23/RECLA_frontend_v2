@@ -37,6 +37,13 @@ class DetalleYComprarProducto extends StatelessWidget {
           ),
           const SizedBox(height: 8), // Espacio entre el título y el detalle
 
+          /*Text(
+            'NOMBRE DEL VENDEDOR: $nombreVendedor',
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+          const SizedBox(height: 8), // Espacio entre el título y el detalle
+          */
+
           // Detalle del producto
           Text(
             descripcion,
@@ -50,6 +57,7 @@ class DetalleYComprarProducto extends StatelessWidget {
             width: MediaQuery.of(context).size.width, // Ocupa todo el ancho de la pantalla
             child: ElevatedButton.icon(
               onPressed: () {
+                //print("Usuario: $idUsuarioActual, Vendedor: $idVendedor, Producto: $idProducto");
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -57,6 +65,7 @@ class DetalleYComprarProducto extends StatelessWidget {
                       idUsuarioActual: idUsuarioActual, // El comprador (tú)
                       idUsuarioReceptor: idVendedor,    // El vendedor (del producto)
                       nombreUsuario: nombreVendedor, // El nombre del vendedor
+                      idProducto: idProducto, // El ID del producto
                     ),
                   ),
                 );

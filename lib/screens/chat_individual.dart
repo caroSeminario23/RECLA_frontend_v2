@@ -3,8 +3,9 @@ import 'package:provider/provider.dart';
 import 'dart:async';
 
 import 'package:recla/providers/chats.dart';
+import 'package:recla/providers/venta.dart';
 import 'package:recla/screens/beneficios.dart';
-import 'package:recla/screens/chats.dart';
+//import 'package:recla/screens/chats.dart';
 import 'package:recla/screens/compra_productos.dart';
 import 'package:recla/screens/perfil_eco.dart';
 import 'package:recla/screens/tabla_clasificacion.dart';
@@ -19,12 +20,14 @@ class ChatIndividualPagina extends StatefulWidget {
   final int idUsuarioActual; // ID del usuario actual
   final int idUsuarioReceptor; // ID del contacto
   final String nombreUsuario; // Nombre del contacto
+  final int idProducto; // ID del producto relacionado
 
   const ChatIndividualPagina({
     super.key,
     required this.idUsuarioActual,
     required this.idUsuarioReceptor,
     required this.nombreUsuario,
+    required this.idProducto,
   });
 
   @override
@@ -92,6 +95,7 @@ class _ChatIndividualPaginaState extends State<ChatIndividualPagina> {
     // Mensajes de ejemplo con valores brutos
     //await Future.delayed(const Duration(milliseconds: 500));
     try {
+      //print("_cargarMensajes: Llamando a getHistorial para Actual: ${widget.idUsuarioActual}, Receptor: ${widget.idUsuarioReceptor}");
       await chatProvider.getHistorial(
         widget.idUsuarioActual,
         widget.idUsuarioReceptor,
@@ -122,10 +126,12 @@ class _ChatIndividualPaginaState extends State<ChatIndividualPagina> {
 
     try {
       // Llama al provider para enviar el mensaje
+      //print("Id_usuarioActual: ${widget.idUsuarioActual}, Receptor: ${widget.idUsuarioReceptor}, Producto: ${widget.idProducto}, Mensaje: $texto");
       await chatProvider.enviarMensaje(
         widget.idUsuarioActual,
         widget.idUsuarioReceptor,
         texto,
+        widget.idProducto,
       );
       //print("_enviarMensaje: Mensaje enviado y historial actualizado.");
       // El provider se encargará de recargar la lista
@@ -162,6 +168,56 @@ class _ChatIndividualPaginaState extends State<ChatIndividualPagina> {
     return "${localDt.hour}:${localDt.minute.toString().padLeft(2, '0')}";
   }
 
+
+  //REGISTRAR VENTA
+  Future<void> _registrarVenta() async {
+    // Definimos quién es el Comprador y quién es el Vendedor
+    // NOTA: Esto asume que el usuario actual (widget.idUsuarioActual) es el Vendedor
+    // y el Receptor (widget.idUsuarioReceptor) es el Comprador.
+    // Si la lógica de tu aplicación es más compleja, ajústala aquí.
+    
+    final int idVendedor = widget.idUsuarioActual;
+    final int idComprador = widget.idUsuarioReceptor;
+    final int idProducto = widget.idProducto;
+    
+    // Obtenemos el provider de Venta. Usamos `read` para llamar a la función.
+    final ventaProvider = context.read<VentaProvider>();
+
+    try {
+      // 1. Llama a la función de registro de venta
+      final exito = await ventaProvider.registroVent(
+        idVendedor,
+        idComprador,
+        idProducto,
+      );
+
+      // 2. Verificamos mounted DESPUÉS del async gap
+      if (!mounted) return;
+
+      // 3. Manejo de respuesta
+      if (exito == true) {
+        // Registro exitoso
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('✅ ¡Venta registrada exitosamente!')),
+        );
+        // Opcional: Navegar fuera del chat o inhabilitar el botón
+        Navigator.of(context).pop(); // O pop hasta ChatsPagina
+      } else {
+        // Fallo en el registro (debería ser manejado por el catch, pero es un buen fallback)
+        throw Exception('El registro de venta falló.');
+      }
+    } catch (e) {
+
+      if (!mounted) return;
+      // Manejo de errores (validación, fallo de conexión, error del servidor)
+        // Intentamos obtener el error del Provider, si no, mostramos la excepción.
+      final mensajeError = ventaProvider.errorMessage ?? 'Error desconocido al registrar la venta.';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('❌ Error: $mensajeError')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -185,6 +241,8 @@ class _ChatIndividualPaginaState extends State<ChatIndividualPagina> {
           const SizedBox(height: 16), // Espaciado
           BotonComprado(
             onPressed: () {
+              _registrarVenta();
+              /*
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
@@ -193,6 +251,7 @@ class _ChatIndividualPaginaState extends State<ChatIndividualPagina> {
                   ),
                 ),
               );
+              */
             },
           ),
           /*

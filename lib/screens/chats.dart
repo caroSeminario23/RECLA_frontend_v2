@@ -7,6 +7,7 @@ import 'package:recla/providers/usuario.dart';
 import 'package:recla/screens/beneficios.dart';
 import 'package:recla/screens/chat_individual.dart';
 import 'package:recla/screens/compra_productos.dart';
+import 'package:recla/screens/login.dart';
 import 'package:recla/screens/perfil_eco.dart';
 import 'package:recla/screens/tabla_clasificacion.dart';
 import 'package:recla/utils/servicios_externos.dart';
@@ -84,17 +85,19 @@ class _ChatsPaginaState extends State<ChatsPagina> {
     }
   }
 
-  void _irAlChat(int idReceptor, String nombreReceptor, String? avatarUrl) {
+  void _irAlChat(int idReceptor, String nombreReceptor, String? avatarUrl, int idProducto) {
     // Navega a tu pantalla de Chat existente
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => Consumer<ChatsProvider>(
           builder: (context, chatsProvider, child) {
+            //print("Navegando a ChatIndividualPagina con idUsuarioActual: $idUsuarioActual, idUsuarioReceptor: $idReceptor, idProducto: $idProducto");
             return ChatIndividualPagina(
               idUsuarioActual: idUsuarioActual,
               idUsuarioReceptor: idReceptor,
               nombreUsuario: nombreReceptor,
+              idProducto: idProducto,
             );
           },
         ),
@@ -113,6 +116,15 @@ class _ChatsPaginaState extends State<ChatsPagina> {
         title: const Text('Mis Chats'),
         backgroundColor: Theme.of(context).colorScheme.surface,
         elevation: 1,
+        leading: IconButton(
+          icon: const Icon(Icons.exit_to_app),
+          onPressed: () {
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => const Login()));
+          },
+        ),
+        automaticallyImplyLeading: false,
       ),
       body: Consumer<ChatsProvider>(
         builder: (context, provider, child) {
@@ -150,7 +162,7 @@ class _ChatsPaginaState extends State<ChatsPagina> {
                 
                 // Genera un avatar de reserva si no hay URL
                 final avatarDeReserva = perfilPredeterminado;
-
+                //print("PRODUCTO EN CONVERSACIÓN: ${convo.idProducto}");
                 return ConversacionTitulo(
                   nombre: convo.nombreReceptor,
                   ultimoMensaje: convo.ultimoMensaje,
@@ -163,6 +175,7 @@ class _ChatsPaginaState extends State<ChatsPagina> {
                       convo.idUsuarioReceptor,
                       convo.nombreReceptor,
                       convo.avatarUrl,
+                      convo.idProducto ?? 0,
                     );
                   },
                 );

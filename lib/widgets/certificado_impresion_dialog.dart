@@ -5,7 +5,7 @@ import 'package:recla/providers/certificado.dart';
 import 'package:recla/providers/estatus.dart';
 import 'package:recla/providers/usuario.dart';
 
-class CertificadoImpresionDialog extends StatelessWidget {
+class CertificadoImpresionDialog extends StatefulWidget {
   final int idCertificado;
   final String urlImagen;
   final String nombreInsignia1;
@@ -24,6 +24,13 @@ class CertificadoImpresionDialog extends StatelessWidget {
     required this.revisado,
     required this.plantillaCertificadoUrl,
   });
+
+  @override
+  State<CertificadoImpresionDialog> createState() => _CertificadoImpresionDialogState();
+}
+
+class _CertificadoImpresionDialogState extends State<CertificadoImpresionDialog> {
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +56,7 @@ class CertificadoImpresionDialog extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               image: DecorationImage(
-                image: NetworkImage(urlImagen),
+                image: NetworkImage(widget.urlImagen),
                 fit: BoxFit.cover,
               ),
             ),
@@ -73,7 +80,7 @@ class CertificadoImpresionDialog extends StatelessWidget {
               children: [
                 Flexible(
                   child: Text(
-                    '$nombreInsignia1, $nombreInsignia2 y $nombreInsignia3',
+                    '${widget.nombreInsignia1}, ${widget.nombreInsignia2} y ${widget.nombreInsignia3}',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -89,147 +96,172 @@ class CertificadoImpresionDialog extends StatelessWidget {
 
           const SizedBox(height: 20),
 
-          InkWell(
-            onTap: () async {
-              final usuarioProvider = Provider.of<UsuarioProvider>(
-                context,
-                listen: false,
-              );
-              final certificadoProvider = Provider.of<CertificadoProvider>(
-                context,
-                listen: false,
-              );
-              final estatusProvider = Provider.of<EstatusProvider>(
-                context,
-                listen: false,
-              );
+          if (_isLoading)
+            Column(
+              children: [
+                CircularProgressIndicator(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'Procesando...',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ],
+            )
+          else
 
-              final int idUsuario = usuarioProvider.idUsuario ?? 1;
+            InkWell(
+              onTap: () async {
+                setState(() {
+                  _isLoading = true;
+                });
 
-              try {
-                if (!revisado) {
-                  final resultado = await certificadoProvider
-                      .desbloquearCertificado(idUsuario, idCertificado);
+                final usuarioProvider = Provider.of<UsuarioProvider>(
+                  context,
+                  listen: false,
+                );
+                final certificadoProvider = Provider.of<CertificadoProvider>(
+                  context,
+                  listen: false,
+                );
+                final estatusProvider = Provider.of<EstatusProvider>(
+                  context,
+                  listen: false,
+                );
 
-                  // Verifica si el widget sigue montado antes de usar context
-                  if (!context.mounted) return;
+                final int idUsuario = usuarioProvider.idUsuario ?? 1;
 
-                  if (resultado) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          '¡Certificado desbloqueado correctamente!',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
+                try {
+                  if (!widget.revisado) {
+                    final resultado = await certificadoProvider
+                        .desbloquearCertificado(idUsuario, widget.idCertificado);
+
+                    // Verifica si el widget sigue montado antes de usar context
+                    if (!context.mounted) return;
+
+                    if (resultado) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            '¡Certificado desbloqueado correctamente!',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                           ),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondaryContainer,
+                          duration: const Duration(seconds: 2),
                         ),
-                        backgroundColor:
-                            Theme.of(context).colorScheme.secondaryContainer,
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
+                      );
 
-                    if (!context.mounted) return;
+                      if (!context.mounted) return;
 
-                    // Recarga los certificados
-                    await certificadoProvider.obtenerCertificados(idUsuario);
+                      // Recarga los certificados
+                      await certificadoProvider.obtenerCertificados(idUsuario);
 
-                    // Actualiza los puntos del usuario
-                    await estatusProvider.cargarEstatusContadores(idUsuario);
+                      // Actualiza los puntos del usuario
+                      await estatusProvider.cargarEstatusContadores(idUsuario);
 
-                    if (!context.mounted) return;
-                    Navigator.of(context).pop();
+                      if (!context.mounted) return;
+                      Navigator.of(context).pop();
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'No has desbloqueado las insignias necesarias para este certificado',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                          ),
+                          backgroundColor: Theme.of(context).colorScheme.onError,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    }
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'No has desbloqueado las insignias necesarias para este certificado',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.error,
+                    final resultado = await certificadoProvider
+                        .enviarCertificadoPorCorreo(idUsuario, widget.idCertificado, usuarioProvider.username?? '', widget.plantillaCertificadoUrl);
+
+                    if (!context.mounted) return;
+
+                    if (resultado) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            '¡Certificado enviado a tu correo!',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                           ),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondaryContainer,
+                          duration: const Duration(seconds: 2),
                         ),
-                        backgroundColor: Theme.of(context).colorScheme.onError,
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
+                      );
+
+                      if (!context.mounted) return;
+                      Navigator.of(context).pop();
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Error al enviar el certificado',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                          ),
+                          backgroundColor: Theme.of(context).colorScheme.onError,
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                    }
                   }
-                } else {
-                  final resultado = await certificadoProvider
-                      .enviarCertificadoPorCorreo(idUsuario, idCertificado, usuarioProvider.username?? '', plantillaCertificadoUrl);
-
+                } catch (e) {
                   if (!context.mounted) return;
 
-                  if (resultado) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          '¡Certificado enviado a tu correo!',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Error: ${e.toString()}',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.error,
                         ),
-                        backgroundColor:
-                            Theme.of(context).colorScheme.secondaryContainer,
-                        duration: const Duration(seconds: 2),
                       ),
-                    );
-
-                    if (!context.mounted) return;
-                    Navigator.of(context).pop();
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'Error al enviar el certificado',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.error,
-                          ),
-                        ),
-                        backgroundColor: Theme.of(context).colorScheme.onError,
-                        duration: const Duration(seconds: 2),
-                      ),
-                    );
+                      backgroundColor: Theme.of(context).colorScheme.onError,
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
+                } finally {
+                  if (mounted) {
+                    setState(() {
+                      _isLoading = false;
+                    });
                   }
                 }
-              } catch (e) {
-                if (!context.mounted) return;
+              },
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      'Error: ${e.toString()}',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.error,
+              child:
+                  !widget.revisado
+                      ? Text(
+                        '¡Lo he revisado!',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontStyle: FontStyle.italic,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        textAlign: TextAlign.end,
+                      )
+                      //: SizedBox.shrink(),
+                      // Mensaje motivacional
+                      : Text(
+                        '¡Envíenme mi certificado!',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontStyle: FontStyle.italic,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        textAlign: TextAlign.end,
                       ),
-                    ),
-                    backgroundColor: Theme.of(context).colorScheme.onError,
-                    duration: const Duration(seconds: 2),
-                  ),
-                );
-              }
-            },
-
-            child:
-                !revisado
-                    ? Text(
-                      '¡Lo he revisado!',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontStyle: FontStyle.italic,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      textAlign: TextAlign.end,
-                    )
-                    //: SizedBox.shrink(),
-                    // Mensaje motivacional
-                    : Text(
-                      '¡Envíenme mi certificado!',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontStyle: FontStyle.italic,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      textAlign: TextAlign.end,
-                    ),
-          ),
+            ),
         ],
       ),
     );

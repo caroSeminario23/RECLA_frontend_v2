@@ -43,11 +43,13 @@ class ChatEnviarRequest {
   int idUsuario1; // Quien envía
   int idUsuario2; // Quien recibe
   String mensaje;
+  int idProducto; // Producto relacionado (opcional)
 
   ChatEnviarRequest({
     required this.idUsuario1,
     required this.idUsuario2,
     required this.mensaje,
+    required this.idProducto,
   });
 
   Map<String, dynamic> toJson() {
@@ -55,6 +57,7 @@ class ChatEnviarRequest {
       'id_usuario_1': idUsuario1,
       'id_usuario_2': idUsuario2,
       'mensaje': mensaje,
+      'id_producto': idProducto,
     };
   }
 }
@@ -67,6 +70,7 @@ class ConversacionResumenResponse {
   final String ultimoMensaje;
   final DateTime fechaUltimoMensaje;
   final String? avatarUrl;
+  final int? idProducto; 
   // final int mensajesNoLeidos; // Opcional, para un futuro
 
   ConversacionResumenResponse({
@@ -75,6 +79,7 @@ class ConversacionResumenResponse {
     required this.ultimoMensaje,
     required this.fechaUltimoMensaje,
     this.avatarUrl,
+    this.idProducto,
   });
 
   factory ConversacionResumenResponse.fromJson(Map<String, dynamic> json) {
@@ -84,6 +89,7 @@ class ConversacionResumenResponse {
       ultimoMensaje: json['ultimo_mensaje'] as String,
       fechaUltimoMensaje: DateTime.parse(json['fecha_ultimo_mensaje'] as String),
       avatarUrl: json['avatar_url'] as String?,
+      idProducto: json['id_producto'] as int?,
     );
   }
 }

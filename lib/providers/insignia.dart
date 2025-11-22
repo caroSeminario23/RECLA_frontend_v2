@@ -100,6 +100,9 @@ class InsigniaProvider extends ChangeNotifier {
       return true;
     } catch (e) {
       _errorMessage = 'Error al cargar insignias desbloqueadas por el usuario $idUsuario';
+      _insigniasCompraDesbloqueadasUsuario = [];
+      _insigniasVentaDesbloqueadasUsuario = [];
+      _insigniasRecursosDesbloqueadasUsuario = [];
       return false;
     } finally {
       _isLoading = false;

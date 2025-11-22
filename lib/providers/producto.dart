@@ -133,4 +133,26 @@ class ProductoProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+
+  // Enviar un certificado para un usuario
+  Future<String> cargarImagen(int idUsuario, String nombreProducto, dynamic imagen) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final exito = await _productoService.cargarImagen(idUsuario, nombreProducto, imagen);
+
+      notifyListeners();
+
+      return exito;
+    } catch (e) {
+      _errorMessage = 'Error al generar imagen para el producto $nombreProducto para el usuario $idUsuario';
+      return "";
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:recla/screens/certificados.dart';
 import 'package:recla/screens/chats.dart';
-
 import 'package:recla/screens/compra_productos.dart';
 import 'package:recla/screens/insignias.dart';
 import 'package:recla/screens/login.dart';
@@ -10,6 +11,8 @@ import 'package:recla/screens/recursos_educativos.dart';
 import 'package:recla/screens/stickers.dart';
 import 'package:recla/screens/tabla_clasificacion.dart';
 import 'package:recla/widgets/navbar.dart';
+import 'package:recla/providers/estatus.dart';
+import 'package:recla/providers/usuario.dart';
 
 class BeneficiosPagina extends StatefulWidget {
   const BeneficiosPagina({super.key});
@@ -41,6 +44,27 @@ class _BeneficiosPaginaState extends State<BeneficiosPagina> {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => const ChatsPagina()));
     }
+  }
+
+  // Cargar estatus del usuario
+  Future<void> _cargarEstatus() async {
+    final usuarioProvider = Provider.of<UsuarioProvider>(context, listen: false);
+    final estatusProvider = Provider.of<EstatusProvider>(context, listen: false);
+
+    final int idUsuario = usuarioProvider.idUsuario ?? 1;
+
+    await estatusProvider.cargarEstatusPerfil(idUsuario);
+    await estatusProvider.cargarEstatusContadores(idUsuario);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    
+    // Usar addPostFrameCallback para asegurar que el contexto esté disponible
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _cargarEstatus();
+    });
   }
 
   @override

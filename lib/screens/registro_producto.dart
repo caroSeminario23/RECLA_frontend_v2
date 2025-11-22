@@ -210,13 +210,27 @@ class _RegistroProductoState extends State<RegistroProducto> {
       final precio = double.tryParse(_precioController.text) ?? 0.0;
       final cantidad = int.tryParse(_cantidadController.text) ?? 0;
 
-      final rutaImagen = kIsWeb
+      final String urlImagen = await productoProvider.cargarImagen(
+        idUsuario, 
+        _nombreController.text, 
+        kIsWeb ? _imagenWeb : _imagenMovil);
+
+      /*final rutaImagen = kIsWeb
           ? 'imagen_web' // en el futuro aquí podrías subir la imagen a Firebase o servidor
           : _imagenMovil?.path ?? '';
+      */
+
+      if (!mounted) return;
+
+      if (urlImagen.isEmpty) {
+        _mostrarSnackBar('Error al cargar la imagen', Colors.red);
+        setState(() => _isLoading = false);
+        return;
+      }
 
       final resultado = await productoProvider.registroPro(
         idUsuario, // idVendedor (debería venir del usuario logueado)
-        rutaImagen,
+        urlImagen,
         precio,
         cantidad,
         _descripcionController.text,
