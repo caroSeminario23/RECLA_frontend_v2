@@ -26,7 +26,7 @@ RECLA es una plataforma que implementa mecanismos de gamificación para promover
 
 2. Conectar los microservicios desplegados mediante la configuración de las variables del archivo: **lib\utils\servicios_externos.dart**
 
-3. Para probar la app en modo prueba, digitar el siguiente comando en la terminal:
+3. Para probar la app, digitar el siguiente comando en la terminal:
    ```
    flutter run
    ```
